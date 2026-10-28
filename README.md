@@ -2,7 +2,7 @@
 
 **Doc ID:** IE-REP-005 | **Title:** Annex A multi-framework control library | **Version:** 1.0 | **Issued:** 2026-10-28 | **Owner:** Hakim Bilal | **Status:** Draft | **Next Review:** 2027-10-28
 
-Reference data for **grc-workbench Stage 3** (the Statement of Applicability). It is not the tool. You build the tool yourself in the pair-build stages. This file sits here until Stage 3, when it is copied into the repo as the control list the SoA reads.
+Reference data for **grc-workbench Stage 3** (the Statement of Applicability). 
 
 ## What it holds
 

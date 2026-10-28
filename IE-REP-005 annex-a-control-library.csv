@@ -1,0 +1,94 @@
+control_id,theme,short_name,uae_ia_family,iec62443_ref,ot_crosswalk_rows
+A.5.1,Organisational,Security policy set,M1,2-1,OT-01
+A.5.2,Organisational,Security roles and duties,M1,2-1,OT-01
+A.5.3,Organisational,Separating conflicting duties,M1,SR 2.1,OT-14
+A.5.4,Organisational,Leadership enforcing security,M1,2-1,
+A.5.5,Organisational,Regulator and authority contacts,M5,2-1,
+A.5.6,Organisational,Specialist group contacts,M1,,
+A.5.7,Organisational,Threat intelligence,M2,2-1,
+A.5.8,Organisational,Security in projects,M1,3-2,
+A.5.9,Organisational,Asset and information inventory,T1,SR 7.8,OT-02
+A.5.10,Organisational,Acceptable use rules,T1,,
+A.5.11,Organisational,Asset return on exit,T1,,
+A.5.12,Organisational,Information classification,T1,3-2,OT-22
+A.5.13,Organisational,Information labelling,T1,,
+A.5.14,Organisational,Information transfer rules,T4,SR 3.1; SR 4.1; SR 5.2,
+A.5.15,Organisational,Access control policy,T5,SR 2.1,OT-14
+A.5.16,Organisational,Identity lifecycle,T5,SR 1.1; SR 1.2; SR 1.3,OT-08
+A.5.17,Organisational,Passwords and other secrets,T5,SR 1.5; SR 1.7,OT-11; OT-12
+A.5.18,Organisational,Granting and reviewing access,T5,SR 1.3; SR 2.1,OT-10
+A.5.19,Organisational,Supplier security policy,T6,2-4,OT-06
+A.5.20,Organisational,Security clauses in supplier contracts,T6,2-4,OT-06; OT-13
+A.5.21,Organisational,ICT supply chain security,T6,4-1; 4-2,OT-31
+A.5.22,Organisational,Supplier monitoring and change,T6,2-4,OT-06
+A.5.23,Organisational,Cloud service security,T6,SR 1.13,
+A.5.24,Organisational,Incident management planning,T8,2-1,
+A.5.25,Organisational,Event triage and decision,T8,SR 6.1,
+A.5.26,Organisational,Incident response,T8,2-1,
+A.5.27,Organisational,Lessons from incidents,T8,2-1,
+A.5.28,Organisational,Evidence collection,T8,SR 2.8,
+A.5.29,Organisational,Security during disruption,T9,SR 7.1,
+A.5.30,Organisational,ICT continuity readiness,T9,SR 7.3; SR 7.4,OT-27
+A.5.31,Organisational,Legal and regulatory obligations,M5,,
+A.5.32,Organisational,Intellectual property,M5,,
+A.5.33,Organisational,Records protection,M5,,
+A.5.34,Organisational,Privacy and personal data,M5,,
+A.5.35,Organisational,Independent security review,M6,2-1,
+A.5.36,Organisational,Policy compliance checks,M5,2-1,
+A.5.37,Organisational,Written operating procedures,T3,2-1,
+A.6.1,People,Pre-employment screening,M4,2-4,
+A.6.2,People,Security terms of employment,M4,,
+A.6.3,People,Awareness and training,M3,2-1,
+A.6.4,People,Disciplinary process,M4,,
+A.6.5,People,Leaver and mover duties,M4,,
+A.6.6,People,Confidentiality agreements,M4,,
+A.6.7,People,Remote working,T5,SR 1.13; SR 2.6,OT-13
+A.6.8,People,Staff reporting of events,T8,,
+A.7.1,Physical,Physical perimeters,T2,,
+A.7.2,Physical,Entry controls,T2,,
+A.7.3,Physical,Securing rooms and facilities,T2,,
+A.7.4,Physical,Physical monitoring,T2,,
+A.7.5,Physical,Physical and environmental threats,T2,,
+A.7.6,Physical,Working in secure areas,T2,,
+A.7.7,Physical,Clear desk and screen,T2,,
+A.7.8,Physical,Equipment siting,T2,,
+A.7.9,Physical,Assets off site,T2,,
+A.7.10,Physical,Storage media,T2,SR 2.3,OT-15
+A.7.11,Physical,Supporting utilities,T2,SR 7.5,
+A.7.12,Physical,Cabling security,T2,,
+A.7.13,Physical,Equipment maintenance,T2,2-4,
+A.7.14,Physical,Secure disposal and re-use,T2,SR 4.2,
+A.8.1,Technological,Endpoint devices,T3,SR 2.3,OT-15
+A.8.2,Technological,Privileged access,T5,SR 1.1; SR 2.1,OT-14
+A.8.3,Technological,Restricting access to information,T5,SR 2.1,
+A.8.4,Technological,Source code access,T7,,
+A.8.5,Technological,Secure authentication,T5,SR 1.1; SR 1.2; SR 1.7; SR 1.13,OT-08; OT-09; OT-12
+A.8.6,Technological,Capacity management,T3,SR 7.2,OT-26
+A.8.7,Technological,Malware protection,T3,SR 3.2,OT-19
+A.8.8,Technological,Technical vulnerability management,T3,2-3; SR 3.3,OT-07
+A.8.9,Technological,Configuration management,T3,SR 7.6; SR 7.7,OT-28; OT-29
+A.8.10,Technological,Information deletion,T1,SR 4.2,
+A.8.11,Technological,Data masking,T7,,
+A.8.12,Technological,Data leakage prevention,T3,SR 5.2,
+A.8.13,Technological,Backup,T3,SR 7.3,OT-27
+A.8.14,Technological,Redundancy,T9,SR 7.4,OT-26
+A.8.15,Technological,Logging,T3,SR 2.8; SR 2.9; SR 2.11; SR 6.1,OT-16; OT-25
+A.8.16,Technological,Monitoring,T3,SR 6.2,OT-25
+A.8.17,Technological,Clock synchronisation,T3,SR 2.11,OT-17
+A.8.18,Technological,Privileged utility programs,T5,SR 7.7,
+A.8.19,Technological,Software installation control,T3,SR 3.4; SR 7.7,OT-21; OT-29
+A.8.20,Technological,Network security,T4,SR 3.1; SR 5.1; SR 5.2,OT-04; OT-13; OT-18; OT-24
+A.8.21,Technological,Network service security,T4,SR 5.2,OT-24
+A.8.22,Technological,Network segregation,T4,SR 5.1; 3-2,OT-04; OT-23
+A.8.23,Technological,Web filtering,T4,SR 5.3,
+A.8.24,Technological,Cryptography,T7,SR 4.1; SR 4.3,OT-18; OT-22
+A.8.25,Technological,Secure development lifecycle,T7,4-1,
+A.8.26,Technological,Application security requirements,T7,4-2,
+A.8.27,Technological,Secure architecture principles,T7,3-2,
+A.8.28,Technological,Secure coding,T7,4-1,
+A.8.29,Technological,Security testing,T7,SR 3.3,OT-20
+A.8.30,Technological,Outsourced development,T7,4-1; 2-4,OT-31
+A.8.31,Technological,"Separate dev, test and live",T7,SR 5.1,
+A.8.32,Technological,Change management,T3,2-1; 2-3,OT-07; OT-21
+A.8.33,Technological,Test data,T7,,
+A.8.34,Technological,Protecting systems during audit,M6,SR 3.3,

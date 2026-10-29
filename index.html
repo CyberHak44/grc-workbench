@@ -65,7 +65,7 @@
   <button role="tab" data-tab="assets" aria-selected="false">Assets</button>
   <button role="tab" data-tab="risks" aria-selected="false">Risks</button>
   <button role="tab" data-tab="controls" aria-selected="false">Controls</button>
-  <button role="tab" disabled title="Stage 3">SoA</button>
+  <button role="tab" data-tab="soa" aria-selected="false">SoA</button>
   <button role="tab" disabled title="Stage 4">Suppliers</button>
   <button role="tab" disabled title="Stage 5">CBUAE readiness</button>
 </nav>
@@ -78,7 +78,8 @@
       <div class="panel"><div class="muted">High criticality (4 to 5)</div><div class="stat" id="stat-high">0</div></div>
       <div class="panel"><div class="muted">Building and OT assets</div><div class="stat" id="stat-ot">0</div></div>
       <div class="panel"><div class="muted">Risks above appetite</div><div class="stat" id="stat-over">0</div></div>
-      <div class="panel"><div class="muted">Controls in library</div><div class="stat" id="stat-controls">0</div></div>
+      <div class="panel"><div class="muted">Controls applicable / implemented</div><div class="stat" id="stat-controls">0</div></div>
+      <div class="panel"><div class="muted">Risks to treat with no control linked</div><div class="stat" id="stat-unlinked">0</div></div>
     </div>
     <div class="panel">
       <h2 style="margin-top:0;font-size:16px">Data</h2>
@@ -100,8 +101,8 @@
         <thead><tr><th>Stage</th><th>Module</th><th>Status</th></tr></thead>
         <tbody>
           <tr><td>1</td><td>Page shell, asset register, control library</td><td>v0.1, done</td></tr>
-          <tr><td>2</td><td>Risk register and heat map (ISO 27001 clause 6.1.2)</td><td>v0.2</td></tr>
-          <tr><td>3</td><td>Statement of Applicability linked to risks (clause 6.1.3)</td><td>Planned</td></tr>
+          <tr><td>2</td><td>Risk register and heat map (ISO 27001 clause 6.1.2)</td><td>v0.2.1, done</td></tr>
+          <tr><td>3</td><td>Statement of Applicability linked to risks (clause 6.1.3)</td><td>v0.3</td></tr>
           <tr><td>4</td><td>Supplier tiering and third-party risk (A.5.19 to A.5.22)</td><td>Planned</td></tr>
           <tr><td>5</td><td>CBUAE ORM readiness, pre-filled from the SoA</td><td>Planned</td></tr>
           <tr><td>6</td><td>One-page gap report export</td><td>Planned</td></tr>
@@ -149,7 +150,30 @@
           <tbody id="risk-rows"></tbody>
         </table>
       </div>
-      <p class="muted">Treatment options follow ISO/IEC 27001 clause 6.1.3: treat (add controls), tolerate (accept within appetite), transfer (insurance or contract), terminate (stop the activity). Controls are linked in Stage 3.</p>
+      <p class="muted">Treatment options follow ISO/IEC 27001 clause 6.1.3: treat (add controls), tolerate (accept within appetite), transfer (insurance or contract), terminate (stop the activity). Controls are linked to risks in the SoA tab.</p>
+    </div>
+  </section>
+
+  <!-- SOA -->
+  <section id="tab-soa" hidden>
+    <div class="panel">
+      <h2 style="margin-top:0;font-size:16px">Statement of Applicability</h2>
+      <p class="muted">ISO/IEC 27001 clause 6.1.3 d: list every Annex A control, say whether it applies, justify both inclusion and exclusion, and record whether it is implemented. Link each control to the risks it treats. An auditor reads this document first.</p>
+      <div class="grid" id="soa-stats"></div>
+      <div class="toolbar" style="margin-top:12px">
+        <input class="grow" id="soa-filter" placeholder="Filter by control ID, name or linked risk" aria-label="Filter SoA">
+        <select id="soa-status-filter" aria-label="Status" style="width:auto">
+          <option value="">All statuses</option><option>Not started</option><option>Partial</option><option>Implemented</option><option value="excluded">Excluded</option><option value="nojust">Missing justification</option>
+        </select>
+        <button class="ghost" id="btn-soa-csv">Export SoA (.csv)</button>
+      </div>
+      <div class="msg" id="soa-msg" role="status"></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Control</th><th>Short name</th><th>Applies</th><th>Status</th><th>Treats risks</th><th>Justification</th><th></th></tr></thead>
+          <tbody id="soa-rows"></tbody>
+        </table>
+      </div>
     </div>
   </section>
 
@@ -212,6 +236,29 @@
   </form>
 </dialog>
 
+<dialog id="soa-dialog">
+  <form method="dialog" id="soa-form">
+    <h2 style="margin-top:0;font-size:16px" id="soa-dialog-title">Control</h2>
+    <p class="muted" id="soa-dialog-maps"></p>
+    <div class="grid">
+      <label>Applies to this organisation?
+        <select name="applicable"><option value="yes">Yes, included</option><option value="no">No, excluded</option></select>
+      </label>
+      <label>Implementation status
+        <select name="status"><option>Not started</option><option>Partial</option><option>Implemented</option></select>
+      </label>
+    </div>
+    <label style="margin-top:12px">Justification (why it is included or excluded)<textarea name="justification" rows="3" maxlength="500"></textarea></label>
+    <label style="margin-top:12px">Treats these risks (Ctrl or Cmd to pick several)<select name="risks" multiple id="soa-risks"></select></label>
+    <div class="msg" id="soa-form-msg" role="status"></div>
+    <div class="toolbar" style="margin-top:12px">
+      <span class="grow"></span>
+      <button class="ghost" value="cancel" formnovalidate>Cancel</button>
+      <button class="act" value="save" id="btn-save-soa">Save</button>
+    </div>
+  </form>
+</dialog>
+
 <dialog id="risk-dialog">
   <form method="dialog" id="risk-form">
     <h2 style="margin-top:0;font-size:16px" id="risk-dialog-title">Risk</h2>
@@ -240,7 +287,7 @@
   </form>
 </dialog>
 
-<footer>GRC Workbench v0.2.1 (Stage 2, residual risk). Clive (Hakim) Bean. Demo data is fictional. Not legal advice.</footer>
+<footer>GRC Workbench v0.3 (Stage 3). Clive (Hakim) Bean. Demo data is fictional. Not legal advice.</footer>
 
 <script src="data/controls.js"></script>
 <script>
@@ -269,8 +316,37 @@
         { id: 'AS-010', name: 'Payment operations team', type: 'People', owner: 'Head of Payment Operations', classification: 'Internal', zone: 'Head office', criticality: 4, supplier: '', notes: 'Key-person risk on reconciliation.' }
       ],
       appetite: 12,
-      risks: demoRisks()
+      risks: demoRisks(),
+      soa: demoSoa()
     };
+  }
+  // Demo SoA: every control applies unless excluded below; a few are implemented and linked to the demo risks.
+  function demoSoa() {
+    const soa = {};
+    const set = (id, v) => { soa[id] = Object.assign({ applicable: true, status: 'Not started', justification: '', risks: [] }, v); };
+    set('A.5.7', { status: 'Partial', justification: 'Card schemes and CBUAE expect threat intelligence feeding the SOC', risks: ['RK-001'] });
+    set('A.5.19', { status: 'Partial', justification: 'Integrators and cloud providers hold access to Critical Operations', risks: ['RK-004'] });
+    set('A.5.20', { status: 'Partial', justification: 'Supplier contracts must carry security and exit clauses (CBUAE Art 13)', risks: ['RK-004'] });
+    set('A.5.24', { status: 'Partial', justification: 'Incident plan must meet the CBUAE 4-hour notification', risks: ['RK-002'] });
+    set('A.5.25', { status: 'Not started', justification: 'No agreed classification criteria for Critical Operation events', risks: ['RK-002'] });
+    set('A.5.30', { status: 'Partial', justification: 'Disruption tolerances for Critical Operations set by the Board', risks: ['RK-005'] });
+    set('A.5.34', { status: 'Implemented', justification: 'Customer personal data held; UAE PDPL applies', risks: ['RK-003', 'RK-008'] });
+    set('A.6.3', { status: 'Implemented', justification: 'Phishing is the main entry route for ransomware and payment fraud', risks: ['RK-001', 'RK-006'] });
+    set('A.7.4', { status: 'Implemented', justification: 'Data centre and head office are monitored', risks: [] });
+    set('A.8.5', { status: 'Implemented', justification: 'MFA on all remote and privileged access', risks: ['RK-001', 'RK-006'] });
+    set('A.8.7', { status: 'Implemented', justification: 'EDR on all servers and endpoints', risks: ['RK-001'] });
+    set('A.8.9', { status: 'Partial', justification: 'Cloud configuration baselines not yet enforced', risks: ['RK-003'] });
+    set('A.8.10', { status: 'Not started', justification: 'Retention rules needed for CCTV and customer data', risks: ['RK-008'] });
+    set('A.8.13', { status: 'Partial', justification: 'Backups exist; restores not tested against tolerance', risks: ['RK-001', 'RK-005'] });
+    set('A.8.15', { status: 'Implemented', justification: 'Central logging to the SOC', risks: ['RK-001'] });
+    set('A.8.16', { status: 'Partial', justification: 'Building systems not yet monitored', risks: ['RK-004'] });
+    set('A.8.22', { status: 'Partial', justification: 'BMS and CCTV on own VLANs; integrator path still open', risks: ['RK-004'] });
+    set('A.8.24', { status: 'Implemented', justification: 'Card data and keys protected by HSMs', risks: [] });
+    set('A.5.32', { applicable: false, justification: 'No third-party software or content licensed for resale' });
+    set('A.8.4', { applicable: false, justification: 'No in-house software development; the payment switch is vendor-built' });
+    set('A.8.25', { applicable: false, justification: 'No in-house software development (see A.8.4)' });
+    set('A.8.28', { applicable: false, justification: 'No in-house software development (see A.8.4)' });
+    return soa;
   }
   function demoRisks() {
     return [
@@ -317,12 +393,14 @@
       if (!r || !r.id || !r.title) errs.push('Risk ' + (i + 1) + ' has no ID or title.');
       if (!(l >= 1 && l <= 5) || !(m >= 1 && m <= 5)) errs.push('Risk ' + (r && r.id) + ' likelihood and impact must be 1 to 5.');
     });
+    if (d.soa !== undefined && (typeof d.soa !== 'object' || Array.isArray(d.soa))) errs.push('SoA must be a set of controls.');
     return errs;
   }
   // Data saved by v0.1 has no risks yet: add the new fields without touching the assets.
   function upgrade(d) {
     if (!Array.isArray(d.risks)) d.risks = [];
     if (!(Number(d.appetite) >= 1 && Number(d.appetite) <= 25)) d.appetite = 12;
+    if (!d.soa || typeof d.soa !== 'object' || Array.isArray(d.soa)) d.soa = {};
     return d;
   }
 
@@ -350,7 +428,9 @@
     $('stat-assets').textContent = state.assets.length;
     $('stat-high').textContent = state.assets.filter((a) => Number(a.criticality) >= 4).length;
     $('stat-ot').textContent = state.assets.filter((a) => a.type === 'Building and OT').length;
-    $('stat-controls').textContent = CONTROLS.length;
+    const app = CONTROLS.filter((c) => soaOf(c.control_id).applicable);
+    $('stat-controls').textContent = app.length + ' / ' + app.filter((c) => soaOf(c.control_id).status === 'Implemented').length;
+    $('stat-unlinked').textContent = unlinkedRisks().length;
     $('stat-over').textContent = state.risks.filter((r) => effective(r) >= state.appetite).length;
     $('org-name').value = state.org || '';
     $('org-line').textContent = (state.org || 'Unnamed organisation') + '. Everything you enter stays in this browser until you export it.';
@@ -482,7 +562,11 @@
   $('risk-rows').addEventListener('click', (e) => {
     const ed = e.target.getAttribute('data-redit'); const del = e.target.getAttribute('data-rdel');
     if (ed) openRisk(ed);
-    if (del && window.confirm('Delete risk ' + del + '?')) { state.risks = state.risks.filter((r) => r.id !== del); save(); renderAll(); }
+    if (del && window.confirm('Delete risk ' + del + '?')) {
+      state.risks = state.risks.filter((r) => r.id !== del);
+      Object.values(state.soa).forEach((e) => { e.risks = (e.risks || []).filter((x) => x !== del); });
+      save(); renderAll();
+    }
   });
   $('btn-add-risk').addEventListener('click', () => openRisk(null));
   let editingRisk = null;
@@ -517,6 +601,71 @@
     save(); renderAll();
   });
 
+  // ---------- Statement of Applicability ----------
+  // Each control's entry. A control with no entry yet is applicable and not started.
+  function soaOf(id) { return Object.assign({ applicable: true, status: 'Not started', justification: '', risks: [] }, state.soa[id] || {}); }
+  // Risks marked "Treat" must be treated by at least one applicable control. Otherwise the treatment exists only on paper.
+  function unlinkedRisks() {
+    const linked = new Set();
+    CONTROLS.forEach((c) => { const e = soaOf(c.control_id); if (e.applicable) e.risks.forEach((r) => linked.add(r)); });
+    return state.risks.filter((r) => r.treatment === 'Treat' && !linked.has(r.id));
+  }
+  function renderSoa() {
+    const all = CONTROLS.map((c) => ({ c: c, e: soaOf(c.control_id) }));
+    const app = all.filter((x) => x.e.applicable);
+    const count = (st) => app.filter((x) => x.e.status === st).length;
+    const noJust = all.filter((x) => !x.e.justification).length;
+    const un = unlinkedRisks();
+    $('soa-stats').innerHTML = [
+      ['Applicable', app.length + ' of ' + all.length], ['Implemented', count('Implemented')], ['Partial', count('Partial')],
+      ['Not started', count('Not started')], ['Excluded', all.length - app.length], ['Missing justification', noJust]
+    ].map((k) => '<div class="panel" style="margin:0"><div class="muted">' + k[0] + '</div><div class="stat">' + k[1] + '</div></div>').join('');
+    $('soa-msg').textContent = un.length ? 'Risks marked Treat with no applicable control linked: ' + un.map((r) => r.id).join(', ') + '. Link a control or change the treatment.' : '';
+    const q = $('soa-filter').value.trim().toLowerCase(); const f = $('soa-status-filter').value;
+    const rows = all.filter((x) =>
+      (!q || (x.c.control_id + ' ' + x.c.short_name + ' ' + x.e.risks.join(' ')).toLowerCase().includes(q)) &&
+      (!f || (f === 'excluded' ? !x.e.applicable : f === 'nojust' ? !x.e.justification : (x.e.applicable && x.e.status === f))));
+    $('soa-rows').innerHTML = rows.map((x) =>
+      '<tr><td>' + esc(x.c.control_id) + '</td><td>' + esc(x.c.short_name) + '</td><td>' + (x.e.applicable ? 'Yes' : '<span class="over">No</span>') +
+      '</td><td>' + (x.e.applicable ? esc(x.e.status) : '') + '</td><td>' + x.e.risks.map((r) => '<span class="chip">' + esc(r) + '</span>').join('') +
+      '</td><td>' + (x.e.justification ? esc(x.e.justification) : '<span class="muted">Missing</span>') +
+      '</td><td><button class="ghost" data-soa="' + esc(x.c.control_id) + '">Edit</button></td></tr>').join('') || '<tr><td colspan="7" class="muted">No controls match.</td></tr>';
+  }
+  ['soa-filter', 'soa-status-filter'].forEach((id) => $(id).addEventListener('input', renderSoa));
+  let editingSoa = null;
+  $('soa-rows').addEventListener('click', (e) => {
+    const id = e.target.getAttribute('data-soa'); if (!id) return;
+    editingSoa = id;
+    const c = CONTROLS.find((x) => x.control_id === id); const en = soaOf(id); const f = $('soa-form');
+    f.reset(); $('soa-form-msg').textContent = '';
+    $('soa-dialog-title').textContent = id + ' ' + c.short_name;
+    $('soa-dialog-maps').textContent = 'UAE IA: ' + (c.uae_ia_family || 'none') + '. IEC 62443: ' + (c.iec62443_ref || 'none') + '.';
+    f.elements.applicable.value = en.applicable ? 'yes' : 'no'; f.elements.status.value = en.status; f.elements.justification.value = en.justification;
+    $('soa-risks').innerHTML = state.risks.map((r) => '<option value="' + esc(r.id) + '"' + (en.risks.includes(r.id) ? ' selected' : '') + '>' + esc(r.id + ' ' + r.title.slice(0, 70)) + '</option>').join('');
+    $('soa-dialog').showModal();
+  });
+  $('soa-form').addEventListener('submit', (e) => {
+    if (e.submitter && e.submitter.value === 'cancel') return;
+    const f = e.target;
+    const rec = { applicable: f.elements.applicable.value === 'yes', status: f.elements.status.value, justification: f.elements.justification.value.trim(),
+      risks: Array.from(f.elements.risks.selectedOptions).map((o) => o.value) };
+    // Clause 6.1.3 d asks for a justification either way; an excluded control needs one most of all.
+    if (!rec.applicable && !rec.justification) { e.preventDefault(); $('soa-form-msg').textContent = 'An excluded control needs a justification. Auditors check exclusions first.'; return; }
+    if (!rec.applicable && rec.risks.length) { e.preventDefault(); $('soa-form-msg').textContent = 'An excluded control cannot treat a risk. Unlink the risks or include the control.'; return; }
+    if (!rec.applicable) rec.status = 'Not started';
+    state.soa[editingSoa] = rec; save(); renderAll();
+  });
+  $('btn-soa-csv').addEventListener('click', () => {
+    const q = (v) => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+    const lines = [['Control', 'Short name', 'Theme', 'Applicable', 'Status', 'Justification', 'Treats risks', 'UAE IA family', 'IEC 62443'].map(q).join(',')];
+    CONTROLS.forEach((c) => { const e = soaOf(c.control_id);
+      lines.push([c.control_id, c.short_name, c.theme, e.applicable ? 'Yes' : 'No', e.applicable ? e.status : '', e.justification, e.risks.join('; '), c.uae_ia_family, c.iec62443_ref].map(q).join(',')); });
+    const blob = new Blob([lines.join('\r\n')], { type: 'text/csv' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+    a.download = 'soa-' + new Date().toISOString().slice(0, 10) + '.csv'; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  });
+
   // ---------- Controls ----------
   function renderControls() {
     const q = $('ctl-filter').value.trim().toLowerCase();
@@ -533,7 +682,7 @@
   }
   ['ctl-filter', 'ctl-theme', 'ctl-fw'].forEach((id) => $(id).addEventListener('input', renderControls));
 
-  function renderAll() { renderOverview(); renderAssets(); renderRisks(); renderControls(); }
+  function renderAll() { renderOverview(); renderAssets(); renderRisks(); renderSoa(); renderControls(); }
   renderAll();
 })();
 </script>

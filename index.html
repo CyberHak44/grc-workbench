@@ -6,15 +6,17 @@
 <title>GRC Workbench</title>
 <style>
   :root {
-    --bg: #f6f7f9; --panel: #ffffff; --ink: #1d2430; --muted: #5d6878; --line: #dde2e8;
-    --accent: #1f5f8b; --accent-ink: #ffffff; --warn: #9a4b00; --chip: #eef2f6;
+    /* Intelligent Environments brand tokens */
+    --bg: #f2f2ec; --panel: #ffffff; --ink: #0a0b0a; --muted: #5f655d; --line: #dcdcd4;
+    --accent: #7fb928; --accent-ink: #0a0b0a; --warn: #b5541c; --chip: #ebe6d5; --head: #0a0b0a; --head-ink: #f2f2ec;
+    --mono: "JetBrains Mono", Consolas, "Courier New", monospace;
   }
   @media (prefers-color-scheme: dark) {
-    :root { --bg: #12161c; --panel: #1a2029; --ink: #e6eaf0; --muted: #9aa5b4; --line: #2c3542;
-            --accent: #6aa9d6; --accent-ink: #0d1117; --warn: #f0a35e; --chip: #232b36; }
+    :root { --bg: #0a0b0a; --panel: #101211; --ink: #f2f2ec; --muted: #7a8078; --line: rgba(255,255,255,0.08);
+            --accent: #7fb928; --accent-ink: #0a0b0a; --warn: #d99b28; --chip: #16181a; --head: #16181a; --head-ink: #f2f2ec; }
   }
   * { box-sizing: border-box; }
-  body { margin: 0; font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--ink); }
+  body { margin: 0; font: 15px/1.5 Inter, Calibri, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--ink); }
   header { padding: 16px; border-bottom: 1px solid var(--line); background: var(--panel); }
   header h1 { margin: 0; font-size: 20px; }
   header p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
@@ -40,7 +42,8 @@
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
   label { display: block; font-size: 13px; color: var(--muted); }
   label > input, label > select, label > textarea { margin-top: 4px; }
-  .stat { font-size: 28px; font-weight: 700; }
+  .stat { font-size: 28px; font-weight: 700; font-family: var(--mono); }
+  .wordmark { font-size: 11px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); margin: 0 0 4px; }
   .muted { color: var(--muted); font-size: 13px; }
   .msg { min-height: 1.5em; font-size: 13px; color: var(--warn); }
   dialog { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--ink); width: min(720px, 94vw); }
@@ -51,17 +54,22 @@
   .h-low { background: #e5f4e4; color: #1d4d1b; } .h-med { background: #f9eeda; color: #6b4a00; } .h-high { background: #f9ece7; color: #7a2e12; } .h-crit { background: #fbebeb; color: #8a1c1c; }
   .over { color: var(--warn); font-weight: 600; }
   select[multiple] { min-height: 96px; }
-  .rpt h1 { font-size: 22px; margin: 0 0 4px; } .rpt h2 { font-size: 15px; margin: 18px 0 6px; } .rpt table { font-size: 13px; } .rpt td, .rpt th { padding: 5px 6px; }
+  .rpt h1 { font-size: 22px; margin: 0 0 4px; padding-bottom: 6px; border-bottom: 2px solid #7fb928; }
+  .rpt h2 { font-size: 12px; margin: 18px 0 6px; text-transform: uppercase; letter-spacing: .15em; color: #7fb928; }
+  .rpt th { background: var(--head); color: var(--head-ink); } .rpt .num, .rpt td:first-child { font-family: var(--mono); }
+  .rpt .key { font-family: var(--mono); color: #7fb928; font-weight: 700; }
+  .rpt .ctl { margin-top: 14px; padding-top: 6px; border-top: 1px solid var(--line); font-size: 11px; color: var(--muted); } .rpt table { font-size: 13px; } .rpt td, .rpt th { padding: 5px 6px; }
   @media print {
     header, nav, footer, .no-print, main > section:not(#tab-report) { display: none !important; }
-    #tab-report { display: block !important; } body { background: #fff; color: #000; } .panel { border: none; padding: 0; }
-    @page { size: A4; margin: 12mm; } .rpt { font-size: 11px; } .rpt table { font-size: 10.5px; } .rpt td, .rpt th { padding: 3px 5px; } .rpt h2 { font-size: 13px; margin: 10px 0 4px; } .rpt h1 { font-size: 18px; } .rpt td:first-child { white-space: nowrap; }
+    #tab-report { display: block !important; } body { background: #fff; color: #0a0b0a; -webkit-print-color-adjust: exact; print-color-adjust: exact; } .rpt th { background: #0a0b0a !important; color: #f2f2ec !important; } .panel { border: none; padding: 0; }
+    @page { size: A4; margin: 12mm; } .rpt { font-size: 11px; } .rpt table { font-size: 10.5px; } .rpt td, .rpt th { padding: 3px 5px; } .rpt h2 { font-size: 10.5px; margin: 10px 0 4px; } .rpt h1 { font-size: 18px; } .rpt td:first-child { white-space: nowrap; }
   }
   footer { padding: 16px; text-align: center; color: var(--muted); font-size: 12px; }
 </style>
 </head>
 <body>
 <header>
+  <p class="wordmark">Intelligent Environments</p>
   <h1>GRC Workbench</h1>
   <p id="org-line">Demo data: a fictional company. Everything you enter stays in this browser until you export it.</p>
 </header>
@@ -396,7 +404,7 @@
   </form>
 </dialog>
 
-<footer>GRC Workbench v1.0. Clive (Hakim) Bean. Demo data is fictional. Not legal advice.</footer>
+<footer>GRC Workbench v1.1. Intelligent Environments. Clive (Hakim) Bean. Demo data is fictional. Not legal advice.</footer>
 
 <script src="data/controls.js"></script>
 <script src="data/cbuae.js"></script>
@@ -820,8 +828,8 @@
     const today = new Date().toISOString().slice(0, 10);
     const t = (head, rows) => '<table><thead><tr>' + head.map((h) => '<th>' + h + '</th>').join('') + '</tr></thead><tbody>' + rows.join('') + '</tbody></table>';
     $('report').innerHTML =
-      '<h1>Cyber governance gap report</h1><p class="muted">' + esc(state.org || 'Unnamed organisation') + ' · ' + today + ' · prepared with GRC Workbench</p>' +
-      '<h2>Where you stand</h2><p>CBUAE Operational Risk Management readiness is <b>' + rd.pct + '%</b>: ' + rd.met + ' requirements met, ' + rd.part + ' partly met, ' + rd.not + ' not met' + (rd.na ? ', ' + rd.na + ' not yet assessed' : '') + '. ' +
+      '<p class="wordmark">Intelligent Environments</p><h1>Cyber governance gap report</h1><p class="muted">' + esc(state.org || 'Unnamed organisation') + ' | ' + today + ' | prepared with GRC Workbench</p>' +
+      '<h2>Where you stand</h2><p>CBUAE Operational Risk Management readiness is <span class="key">' + rd.pct + '%</span>: ' + rd.met + ' requirements met, ' + rd.part + ' partly met, ' + rd.not + ' not met' + (rd.na ? ', ' + rd.na + ' not yet assessed' : '') + '. ' +
       'ISO 27001: ' + impl + ' of ' + app.length + ' applicable controls implemented and ' + part + ' partly implemented. ' +
       over.length + ' risks sit at or above the appetite line of ' + state.appetite + ', and ' + sups.length + ' suppliers need action.</p>' +
       '<h2>Top CBUAE gaps</h2>' + (gaps.length ? t(['ID', 'Article', 'Requirement', 'Rating'], gaps.map((x) => '<tr><td>' + esc(x.r.id) + '</td><td>' + esc(x.r.cbuae_ref) + '</td><td>' + esc(x.r.requirement_paraphrase) + '</td><td>' + esc(x.c.rating) + '</td></tr>')) : '<p>No open gaps.</p>') +
@@ -832,7 +840,8 @@
       ['Approve operational risk appetite and disruption tolerances for Critical Operations (CBUAE Art 4)',
        'Approve incident classification criteria for the 4-hour CBUAE notification (Art 15)',
        'Approve exit plans for critical outsourcing (Art 13)'].map((d) => '<li>' + d + '</li>').join('') + '</ul>' +
-      '<p class="muted">Ratings are professional judgement against the published regulation, not legal advice and not a CBUAE assessment.</p>';
+      '<p class="muted">Ratings are professional judgement against the published regulation, not legal advice and not a CBUAE assessment.</p>' +
+      '<p class="ctl">GRC Workbench v1.1 (IE-TOOL-001) | Intelligent Environments L.L.C-FZ, Abu Dhabi | Generated ' + today + '</p>';
   }
   $('btn-print').addEventListener('click', () => { renderReport(); window.print(); });
 

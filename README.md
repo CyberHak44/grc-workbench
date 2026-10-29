@@ -2,7 +2,7 @@
 
 One browser-based tool for asset and risk registers, the ISO/IEC 27001 Statement of Applicability, third-party risk scoring and CBUAE readiness, all sharing one data set. Every control is tagged to ISO/IEC 27001:2022, the UAE IA Regulation and IEC 62443, so one assessment answers all three. Data stays on the user's machine.
 
-**Status:** v1.0. All six stages built.
+**Status:** v1.1. All six stages built; Intelligent Environments brand applied to the interface and the printed gap report.
 
 ## Run it
 
@@ -20,6 +20,7 @@ Data is kept in the browser and can be exported to a JSON file and imported agai
 | 4 | Supplier tiering and third-party risk (A.5.19 to A.5.22) | v0.4 | Done |
 | 5 | CBUAE Operational Risk Management readiness, pre-filled from the SoA | v0.5 | Done |
 | 6 | One-page gap report export | v1.0 | Done |
+| - | Intelligent Environments brand (colours, type, report wordmark and footer) | v1.1 | Done |
 
 ## What is in the repo
 
@@ -49,4 +50,6 @@ Assets carry risks. Risks are scored (likelihood x impact, inherent and residual
 
 ## Author
 
-**Clive (Hakim) Bean**: ISO/IEC 27001 Lead Auditor (GRC Mastery, 2026, Credly-verified). Abu Dhabi.
+**Clive (Hakim) Bean**: ISO/IEC 27001 Lead Auditor (GRC Mastery, 2026, Credly-verified). Intelligent Environments L.L.C-FZ, Abu Dhabi.
+
+Document control: IE-TOOL-001 v1.1, Intelligent Environments document register IE-REG-001.

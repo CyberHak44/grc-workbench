@@ -45,6 +45,12 @@
   .msg { min-height: 1.5em; font-size: 13px; color: var(--warn); }
   dialog { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--ink); width: min(720px, 94vw); }
   dialog::backdrop { background: rgba(0,0,0,.4); }
+  .heat { border-collapse: separate; border-spacing: 4px; width: auto; }
+  .heat td { width: 44px; height: 36px; text-align: center; border-radius: 6px; font-weight: 600; border: none; padding: 0; }
+  .heat th { border: none; font-size: 12px; padding: 2px 6px; }
+  .h-low { background: #e5f4e4; color: #1d4d1b; } .h-med { background: #f9eeda; color: #6b4a00; } .h-high { background: #f9ece7; color: #7a2e12; } .h-crit { background: #fbebeb; color: #8a1c1c; }
+  .over { color: var(--warn); font-weight: 600; }
+  select[multiple] { min-height: 96px; }
   footer { padding: 16px; text-align: center; color: var(--muted); font-size: 12px; }
 </style>
 </head>
@@ -57,8 +63,8 @@
 <nav role="tablist" aria-label="Modules">
   <button role="tab" data-tab="overview" aria-selected="true">Overview</button>
   <button role="tab" data-tab="assets" aria-selected="false">Assets</button>
+  <button role="tab" data-tab="risks" aria-selected="false">Risks</button>
   <button role="tab" data-tab="controls" aria-selected="false">Controls</button>
-  <button role="tab" disabled title="Stage 2">Risks</button>
   <button role="tab" disabled title="Stage 3">SoA</button>
   <button role="tab" disabled title="Stage 4">Suppliers</button>
   <button role="tab" disabled title="Stage 5">CBUAE readiness</button>
@@ -71,6 +77,7 @@
       <div class="panel"><div class="muted">Assets</div><div class="stat" id="stat-assets">0</div></div>
       <div class="panel"><div class="muted">High criticality (4 to 5)</div><div class="stat" id="stat-high">0</div></div>
       <div class="panel"><div class="muted">Building and OT assets</div><div class="stat" id="stat-ot">0</div></div>
+      <div class="panel"><div class="muted">Risks above appetite</div><div class="stat" id="stat-over">0</div></div>
       <div class="panel"><div class="muted">Controls in library</div><div class="stat" id="stat-controls">0</div></div>
     </div>
     <div class="panel">
@@ -92,8 +99,8 @@
       <table>
         <thead><tr><th>Stage</th><th>Module</th><th>Status</th></tr></thead>
         <tbody>
-          <tr><td>1</td><td>Page shell, asset register, control library</td><td>v0.1</td></tr>
-          <tr><td>2</td><td>Risk register and heat map (ISO 27001 clause 6.1.2)</td><td>Planned</td></tr>
+          <tr><td>1</td><td>Page shell, asset register, control library</td><td>v0.1, done</td></tr>
+          <tr><td>2</td><td>Risk register and heat map (ISO 27001 clause 6.1.2)</td><td>v0.2</td></tr>
           <tr><td>3</td><td>Statement of Applicability linked to risks (clause 6.1.3)</td><td>Planned</td></tr>
           <tr><td>4</td><td>Supplier tiering and third-party risk (A.5.19 to A.5.22)</td><td>Planned</td></tr>
           <tr><td>5</td><td>CBUAE ORM readiness, pre-filled from the SoA</td><td>Planned</td></tr>
@@ -117,6 +124,32 @@
         </table>
       </div>
       <p class="muted">Criticality: 1 minor, 5 the business stops. Owner is a role, not a person, so the register survives staff changes.</p>
+    </div>
+  </section>
+
+  <!-- RISKS -->
+  <section id="tab-risks" hidden>
+    <div class="panel">
+      <h2 style="margin-top:0;font-size:16px">Heat map (current risk)</h2>
+      <p class="muted">Rows: likelihood L1 (rare) to L5 (almost certain). Columns: impact I1 (minor) to I5 (severe). Hover a cell to see its risks.</p>
+      <p class="muted">Score = likelihood x impact, 1 to 25. Risks scoring at or above the appetite line need a treatment plan and an owner's sign-off.</p>
+      <div class="toolbar">
+        <label style="max-width:220px">Appetite line (score)<input id="appetite" type="number" min="1" max="25"></label>
+      </div>
+      <div class="table-wrap"><table class="heat" id="heat"></table></div>
+    </div>
+    <div class="panel">
+      <div class="toolbar">
+        <input class="grow" id="risk-filter" placeholder="Filter by risk, asset, owner or treatment" aria-label="Filter risks">
+        <button class="act" id="btn-add-risk">Add risk</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>Risk</th><th>Assets</th><th>L</th><th>I</th><th>Inherent</th><th>Residual</th><th>Treatment</th><th>Owner</th><th>Status</th><th></th></tr></thead>
+          <tbody id="risk-rows"></tbody>
+        </table>
+      </div>
+      <p class="muted">Treatment options follow ISO/IEC 27001 clause 6.1.3: treat (add controls), tolerate (accept within appetite), transfer (insurance or contract), terminate (stop the activity). Controls are linked in Stage 3.</p>
     </div>
   </section>
 
@@ -179,7 +212,35 @@
   </form>
 </dialog>
 
-<footer>GRC Workbench v0.1 (Stage 1). Clive (Hakim) Bean. Demo data is fictional. Not legal advice.</footer>
+<dialog id="risk-dialog">
+  <form method="dialog" id="risk-form">
+    <h2 style="margin-top:0;font-size:16px" id="risk-dialog-title">Risk</h2>
+    <label>Risk (what could happen, to what, and the consequence)<textarea name="title" rows="2" required maxlength="300"></textarea></label>
+    <div class="grid" style="margin-top:12px">
+      <label>Threat or cause<input name="threat" maxlength="120"></label>
+      <label>Owner (role)<input name="owner" required maxlength="80"></label>
+      <label>Likelihood (1 rare to 5 almost certain)<input name="likelihood" type="number" min="1" max="5" required></label>
+      <label>Impact (1 minor to 5 severe)<input name="impact" type="number" min="1" max="5" required></label>
+      <label>Residual likelihood, after controls (optional)<input name="resLikelihood" type="number" min="1" max="5"></label>
+      <label>Residual impact, after controls (optional)<input name="resImpact" type="number" min="1" max="5"></label>
+      <label>Treatment
+        <select name="treatment" required><option>Treat</option><option>Tolerate</option><option>Transfer</option><option>Terminate</option></select>
+      </label>
+      <label>Status
+        <select name="status" required><option>Open</option><option>In treatment</option><option>Accepted</option><option>Closed</option></select>
+      </label>
+    </div>
+    <label style="margin-top:12px">Affected assets (Ctrl or Cmd to pick several)<select name="assets" multiple id="risk-assets"></select></label>
+    <div class="msg" id="risk-msg" role="status"></div>
+    <div class="toolbar" style="margin-top:12px">
+      <span class="grow"></span>
+      <button class="ghost" value="cancel" formnovalidate>Cancel</button>
+      <button class="act" value="save" id="btn-save-risk">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<footer>GRC Workbench v0.2.1 (Stage 2, residual risk). Clive (Hakim) Bean. Demo data is fictional. Not legal advice.</footer>
 
 <script src="data/controls.js"></script>
 <script>
@@ -206,8 +267,22 @@
         { id: 'AS-008', name: 'Office BMS (HVAC and lighting)', type: 'Building and OT', owner: 'Facilities Manager', classification: 'Internal', zone: 'Head office building network', criticality: 3, supplier: 'BMS integrator (fictional)', notes: 'Cools the comms room. Integrator has remote access. See OT crosswalk OT-13.' },
         { id: 'AS-009', name: 'CCTV and access control', type: 'Building and OT', owner: 'Facilities Manager', classification: 'Confidential', zone: 'Head office building network', criticality: 3, supplier: 'Security integrator (fictional)', notes: 'Footage is personal data.' },
         { id: 'AS-010', name: 'Payment operations team', type: 'People', owner: 'Head of Payment Operations', classification: 'Internal', zone: 'Head office', criticality: 4, supplier: '', notes: 'Key-person risk on reconciliation.' }
-      ]
+      ],
+      appetite: 12,
+      risks: demoRisks()
     };
+  }
+  function demoRisks() {
+    return [
+      { id: 'RK-001', title: 'Ransomware encrypts the payment switch and core ledger, stopping card authorisation for more than 4 hours', threat: 'Ransomware via phishing or exposed remote access', assets: ['AS-001', 'AS-003'], likelihood: 3, impact: 5, treatment: 'Treat', owner: 'Head of IT Infrastructure', status: 'In treatment' },
+      { id: 'RK-002', title: 'Incident hitting a Critical Operation not reported to CBUAE within 4 hours', threat: 'No agreed classification criteria or on-call decision owner', assets: ['AS-001', 'AS-010'], likelihood: 3, impact: 4, treatment: 'Treat', owner: 'Chief Risk Officer', status: 'Open' },
+      { id: 'RK-003', title: 'Customer PII leaked through a misconfigured mobile app backend', threat: 'Cloud misconfiguration', assets: ['AS-002', 'AS-005'], likelihood: 2, impact: 5, treatment: 'Treat', owner: 'Head of Digital', status: 'Open' },
+      { id: 'RK-004', title: 'BMS integrator remote access used to reach the corporate network', threat: 'Unmonitored vendor remote access tool', assets: ['AS-008'], likelihood: 3, impact: 3, treatment: 'Treat', owner: 'Facilities Manager', status: 'Open' },
+      { id: 'RK-005', title: 'Backup copies of the ledger cannot be restored within the disruption tolerance', threat: 'Untested restores', assets: ['AS-007', 'AS-003'], likelihood: 2, impact: 4, treatment: 'Treat', owner: 'Head of IT Infrastructure', status: 'In treatment' },
+      { id: 'RK-006', title: 'Business email compromise leads to a fraudulent supplier payment', threat: 'Phishing, lookalike domains', assets: ['AS-006', 'AS-010'], likelihood: 4, impact: 3, treatment: 'Treat', owner: 'Chief Financial Officer', status: 'Open' },
+      { id: 'RK-007', title: 'HSM vendor support ends before replacement units are approved', threat: 'End-of-life hardware', assets: ['AS-004'], likelihood: 2, impact: 3, treatment: 'Tolerate', owner: 'Head of IT Infrastructure', status: 'Accepted' },
+      { id: 'RK-008', title: 'CCTV footage retained longer than needed, breaching data protection rules', threat: 'No retention setting on the recorder', assets: ['AS-009'], likelihood: 3, impact: 2, treatment: 'Treat', owner: 'Facilities Manager', status: 'Open' }
+    ];
   }
 
   // Storage is a convenience only. Wrapped because it can throw (private windows, blocked storage).
@@ -236,10 +311,22 @@
       const c = Number(a && a.criticality);
       if (!(c >= 1 && c <= 5)) errs.push('Asset ' + (a && a.id) + ' criticality must be 1 to 5.');
     });
+    if (d.risks !== undefined && !Array.isArray(d.risks)) errs.push('Risks must be a list.');
+    (d.risks || []).forEach((r, i) => {
+      const l = Number(r && r.likelihood), m = Number(r && r.impact);
+      if (!r || !r.id || !r.title) errs.push('Risk ' + (i + 1) + ' has no ID or title.');
+      if (!(l >= 1 && l <= 5) || !(m >= 1 && m <= 5)) errs.push('Risk ' + (r && r.id) + ' likelihood and impact must be 1 to 5.');
+    });
     return errs;
   }
+  // Data saved by v0.1 has no risks yet: add the new fields without touching the assets.
+  function upgrade(d) {
+    if (!Array.isArray(d.risks)) d.risks = [];
+    if (!(Number(d.appetite) >= 1 && Number(d.appetite) <= 25)) d.appetite = 12;
+    return d;
+  }
 
-  let state = load();
+  let state = upgrade(load());
 
   // ---------- Helpers ----------
   const $ = (id) => document.getElementById(id);
@@ -264,6 +351,7 @@
     $('stat-high').textContent = state.assets.filter((a) => Number(a.criticality) >= 4).length;
     $('stat-ot').textContent = state.assets.filter((a) => a.type === 'Building and OT').length;
     $('stat-controls').textContent = CONTROLS.length;
+    $('stat-over').textContent = state.risks.filter((r) => effective(r) >= state.appetite).length;
     $('org-name').value = state.org || '';
     $('org-line').textContent = (state.org || 'Unnamed organisation') + '. Everything you enter stays in this browser until you export it.';
   }
@@ -286,7 +374,7 @@
       try {
         const d = JSON.parse(r.result); const errs = validate(d);
         if (errs.length) { flash('data-msg', 'Not imported: ' + errs.slice(0, 3).join(' ')); return; }
-        state = d; save(); renderAll(); flash('data-msg', 'Imported ' + d.assets.length + ' assets.');
+        state = upgrade(d); save(); renderAll(); flash('data-msg', 'Imported ' + d.assets.length + ' assets and ' + state.risks.length + ' risks.');
       } catch (err) { flash('data-msg', 'Not imported: the file is not valid JSON.'); }
       e.target.value = '';
     };
@@ -313,8 +401,14 @@
   $('asset-rows').addEventListener('click', (e) => {
     const ed = e.target.getAttribute('data-edit'); const del = e.target.getAttribute('data-del');
     if (ed) openAsset(ed);
-    if (del && window.confirm('Delete asset ' + del + '?')) {
-      state.assets = state.assets.filter((a) => a.id !== del); save(); renderAll();
+    if (del) {
+      const linked = state.risks.filter((r) => (r.assets || []).includes(del)).map((r) => r.id);
+      const msg = linked.length ? 'Asset ' + del + ' is linked to ' + linked.join(', ') + '. Delete it and remove those links?' : 'Delete asset ' + del + '?';
+      if (window.confirm(msg)) {
+        state.assets = state.assets.filter((a) => a.id !== del);
+        state.risks.forEach((r) => { r.assets = (r.assets || []).filter((x) => x !== del); });
+        save(); renderAll();
+      }
     }
   });
   $('btn-add-asset').addEventListener('click', () => openAsset(null));
@@ -341,6 +435,88 @@
     save(); renderAll();
   });
 
+  // ---------- Risks ----------
+  // Score = likelihood x impact. Bands: 1-4 low, 5-9 medium, 10-15 high, 16-25 critical.
+  function score(r) { return Number(r.likelihood) * Number(r.impact); }
+  // Residual = the score after controls are in place. Blank until then.
+  function residual(r) { return r.resLikelihood && r.resImpact ? Number(r.resLikelihood) * Number(r.resImpact) : null; }
+  // The score judged against appetite: residual if known, otherwise inherent.
+  function effective(r) { const v = residual(r); return v === null ? score(r) : v; }
+  function band(n) { return n >= 16 ? 'crit' : n >= 10 ? 'high' : n >= 5 ? 'med' : 'low'; }
+  function nextRiskId() {
+    const n = state.risks.reduce((m, r) => Math.max(m, parseInt(String(r.id).replace(/\D/g, ''), 10) || 0), 0) + 1;
+    return 'RK-' + String(n).padStart(3, '0');
+  }
+  function renderHeat() {
+    let html = '<tr><th></th>' + [1, 2, 3, 4, 5].map((i) => '<th>I' + i + '</th>').join('') + '</tr>';
+    for (let l = 5; l >= 1; l--) {
+      html += '<tr><th>L' + l + '</th>';
+      for (let i = 1; i <= 5; i++) {
+        const ids = state.risks.filter((r) => Number(r.likelihood) === l && Number(r.impact) === i).map((r) => r.id);
+        html += '<td class="h-' + band(l * i) + '" title="' + esc(ids.join(', ') || 'No risks') + '">' + (ids.length || '') + '</td>';
+      }
+      html += '</tr>';
+    }
+    $('heat').innerHTML = html;
+    $('appetite').value = state.appetite;
+  }
+  function renderRisks() {
+    const q = $('risk-filter').value.trim().toLowerCase();
+    const rows = state.risks.slice().sort((a, b) => score(b) - score(a))
+      .filter((r) => !q || [r.id, r.title, r.owner, r.treatment, (r.assets || []).join(' ')].join(' ').toLowerCase().includes(q));
+    $('risk-rows').innerHTML = rows.map((r) => {
+      const sc = score(r);
+      return '<tr><td>' + esc(r.id) + '</td><td>' + esc(r.title) + (r.threat ? '<div class="muted">' + esc(r.threat) + '</div>' : '') +
+        '</td><td>' + (r.assets || []).map((a) => '<span class="chip">' + esc(a) + '</span>').join('') +
+        '</td><td>' + esc(r.likelihood) + '</td><td>' + esc(r.impact) + '</td><td class="' + (sc >= state.appetite ? 'over' : '') + '">' + sc +
+        '</td><td class="' + (residual(r) !== null && residual(r) >= state.appetite ? 'over' : '') + '">' + (residual(r) === null ? '<span class="muted">not set</span>' : residual(r)) + '</td><td>' + esc(r.treatment) + '</td><td>' + esc(r.owner) + '</td><td>' + esc(r.status) +
+        '</td><td style="white-space:nowrap"><button class="ghost" data-redit="' + esc(r.id) + '">Edit</button> <button class="ghost" data-rdel="' + esc(r.id) + '">Delete</button></td></tr>';
+    }).join('') || '<tr><td colspan="11" class="muted">No risks match.</td></tr>';
+    renderHeat();
+  }
+  $('risk-filter').addEventListener('input', renderRisks);
+  $('appetite').addEventListener('change', (e) => {
+    const v = Number(e.target.value);
+    if (v >= 1 && v <= 25) { state.appetite = v; save(); renderAll(); } else { e.target.value = state.appetite; }
+  });
+  $('risk-rows').addEventListener('click', (e) => {
+    const ed = e.target.getAttribute('data-redit'); const del = e.target.getAttribute('data-rdel');
+    if (ed) openRisk(ed);
+    if (del && window.confirm('Delete risk ' + del + '?')) { state.risks = state.risks.filter((r) => r.id !== del); save(); renderAll(); }
+  });
+  $('btn-add-risk').addEventListener('click', () => openRisk(null));
+  let editingRisk = null;
+  function openRisk(id) {
+    editingRisk = id;
+    const f = $('risk-form'); f.reset(); flash('risk-msg', '');
+    const r = id ? state.risks.find((x) => x.id === id) : { likelihood: 3, impact: 3, treatment: 'Treat', status: 'Open', assets: [] };
+    $('risk-dialog-title').textContent = id ? 'Edit ' + id : 'New risk (' + nextRiskId() + ')';
+    $('risk-assets').innerHTML = state.assets.map((a) => '<option value="' + esc(a.id) + '"' + ((r.assets || []).includes(a.id) ? ' selected' : '') + '>' + esc(a.id + ' ' + a.name) + '</option>').join('');
+    ['title', 'threat', 'owner', 'likelihood', 'impact', 'resLikelihood', 'resImpact', 'treatment', 'status'].forEach((k) => { f.elements[k].value = r[k] == null ? '' : r[k]; });
+    $('risk-dialog').showModal();
+  }
+  $('risk-form').addEventListener('submit', (e) => {
+    if (e.submitter && e.submitter.value === 'cancel') return;
+    const f = e.target; const rec = {};
+    ['title', 'threat', 'owner', 'treatment', 'status'].forEach((k) => { rec[k] = f.elements[k].value.trim(); });
+    rec.likelihood = Number(f.elements.likelihood.value); rec.impact = Number(f.elements.impact.value);
+    rec.resLikelihood = f.elements.resLikelihood.value ? Number(f.elements.resLikelihood.value) : null;
+    rec.resImpact = f.elements.resImpact.value ? Number(f.elements.resImpact.value) : null;
+    if ((rec.resLikelihood === null) !== (rec.resImpact === null)) { e.preventDefault(); flash('risk-msg', 'Enter both residual values, or neither.'); return; }
+    if (residual(rec) !== null && residual(rec) > score(rec)) { e.preventDefault(); flash('risk-msg', 'Residual risk cannot be higher than inherent risk. Controls reduce risk; they never add to it.'); return; }
+    rec.assets = Array.from(f.elements.assets.selectedOptions).map((o) => o.value);
+    const ok = (n) => n >= 1 && n <= 5;
+    if (!rec.title || !rec.owner || !ok(rec.likelihood) || !ok(rec.impact)) {
+      e.preventDefault(); flash('risk-msg', 'Risk, owner, and likelihood and impact of 1 to 5 are required.'); return;
+    }
+    if (rec.treatment === 'Tolerate' && effective(rec) >= state.appetite) {
+      e.preventDefault(); flash('risk-msg', 'A risk at or above the appetite line cannot simply be tolerated. Treat, transfer or terminate it, or raise it for a formal acceptance decision.'); return;
+    }
+    if (editingRisk) Object.assign(state.risks.find((x) => x.id === editingRisk), rec);
+    else state.risks.push(Object.assign({ id: nextRiskId() }, rec));
+    save(); renderAll();
+  });
+
   // ---------- Controls ----------
   function renderControls() {
     const q = $('ctl-filter').value.trim().toLowerCase();
@@ -357,7 +533,7 @@
   }
   ['ctl-filter', 'ctl-theme', 'ctl-fw'].forEach((id) => $(id).addEventListener('input', renderControls));
 
-  function renderAll() { renderOverview(); renderAssets(); renderControls(); }
+  function renderAll() { renderOverview(); renderAssets(); renderRisks(); renderControls(); }
   renderAll();
 })();
 </script>

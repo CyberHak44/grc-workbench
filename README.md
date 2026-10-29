@@ -2,7 +2,7 @@
 
 One browser-based tool for asset and risk registers, the ISO/IEC 27001 Statement of Applicability, third-party risk scoring and CBUAE readiness, all sharing one data set. Every control is tagged to ISO/IEC 27001:2022, the UAE IA Regulation and IEC 62443, so one assessment answers all three. Data stays on the user's machine.
 
-**Status:** v0.1 (Stage 1 of 6).
+**Status:** v0.2.1 (Stage 2 of 6, with residual risk).
 
 ## Run it
 
@@ -15,7 +15,7 @@ Data is kept in the browser and can be exported to a JSON file and imported agai
 | Stage | Module | Release | Status |
 | --- | --- | --- | --- |
 | 1 | Page shell, asset register, control library view | v0.1 | Done |
-| 2 | Risk register and heat map (ISO 27001 clause 6.1.2) | v0.2 | Planned |
+| 2 | Risk register and heat map (ISO 27001 clause 6.1.2) | v0.2 | Done |
 | 3 | Statement of Applicability linked to risks (clause 6.1.3) | v0.3 | Planned |
 | 4 | Supplier tiering and third-party risk (A.5.19 to A.5.22) | v0.4 | Planned |
 | 5 | CBUAE Operational Risk Management readiness, pre-filled from the SoA | v0.5 | Planned |

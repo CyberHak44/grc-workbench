@@ -1,33 +1,46 @@
-# grc-workbench inputs
+# grc-workbench
 
-**Doc ID:** IE-REP-005 | **Title:** Annex A multi-framework control library | **Version:** 1.0 | **Issued:** 2026-10-28 | **Owner:** Hakim Bilal | **Status:** Draft | **Next Review:** 2027-10-28
+One browser-based tool for asset and risk registers, the ISO/IEC 27001 Statement of Applicability, third-party risk scoring and CBUAE readiness, all sharing one data set. Every control is tagged to ISO/IEC 27001:2022, the UAE IA Regulation and IEC 62443, so one assessment answers all three. Data stays on the user's machine.
 
-Reference data for **grc-workbench Stage 3** (the Statement of Applicability). 
+**Status:** v0.1 (Stage 1 of 6).
 
-## What it holds
+## Run it
 
-`IE-REP-005 annex-a-control-library.csv`: one row for each of the 93 ISO/IEC 27001:2022 Annex A controls.
+Download the repository and open `index.html` in a browser. No install, no server, no account. The demo data is a fictional payments company.
 
-| Column | Meaning |
+Data is kept in the browser and can be exported to a JSON file and imported again. Nothing is sent anywhere.
+
+## Build stages
+
+| Stage | Module | Release | Status |
+| --- | --- | --- | --- |
+| 1 | Page shell, asset register, control library view | v0.1 | Done |
+| 2 | Risk register and heat map (ISO 27001 clause 6.1.2) | v0.2 | Planned |
+| 3 | Statement of Applicability linked to risks (clause 6.1.3) | v0.3 | Planned |
+| 4 | Supplier tiering and third-party risk (A.5.19 to A.5.22) | v0.4 | Planned |
+| 5 | CBUAE Operational Risk Management readiness, pre-filled from the SoA | v0.5 | Planned |
+| 6 | One-page gap report export | v1.0 | Planned |
+
+## What is in the repo
+
+| File | What it holds |
 | --- | --- |
-| `control_id` | Annex A number, for example A.8.22 |
-| `theme` | Organisational (37), People (8), Physical (14), Technological (34) |
-| `short_name` | Our own short label. The ISO wording is ISO's copyright and is not reproduced |
-| `uae_ia_family` | UAE IA Regulation control family (M1 to M6, T1 to T9) |
-| `iec62443_ref` | IEC 62443 part (for example 2-4) or 3-3 system requirement (for example SR 5.1). Blank means no meaningful match |
-| `ot_crosswalk_rows` | Rows in the iec62443-building-ot-crosswalk repo that cite this control |
+| `index.html` | The tool: one page, no external libraries |
+| `data/controls.csv` | The 93 ISO/IEC 27001:2022 Annex A controls with our own short names (ISO wording is not reproduced), each tagged to a UAE IA control family and, where it fits, an IEC 62443 part or system requirement. See [`data/README.md`](data/README.md) |
+| `data/controls.js` | The same library as JavaScript, so the page works when opened straight from disk. Generated; do not edit by hand |
+| `tools/build-controls.js` | Rebuilds `data/controls.js` from the CSV: `node tools/build-controls.js` |
 
-## Why it exists
+## Design rules
 
-So one SoA answers three frameworks. When a client marks A.8.22 as implemented, the workbench can show progress against UAE IA family T4 and IEC 62443 SR 5.1 at the same time. That is the "second framework" point turned into a feature.
+- One page, no server, no tracking. Data is exported and imported as a file.
+- Demo data is fictional. No real client data in this repository.
+- Mappings are the author's professional judgement, not guidance from ISO, IEC, ISA, TDRA or CBUAE.
 
-## Limits
+## Related
 
-- UAE IA and IEC 62443 mappings are the author's judgement at family and SR level. Check before client use.
-- SR numbers were checked on 2026-10-28 against two secondary sources (Open Security Architecture and TeepTrak), not the paywalled standard. One conflict: TeepTrak titles SR 4.3 "cryptographic key management", while this file uses it for use of cryptography. Either way it maps to A.8.24. Confirm against the standard before client use [likely].
+- [cbuae-orm-cyber-crosswalk](https://github.com/CyberHak44/cbuae-orm-cyber-crosswalk): feeds the Stage 5 readiness module.
+- [iec62443-building-ot-crosswalk](https://github.com/CyberHak44/iec62443-building-ot-crosswalk): source of the OT mappings in `data/controls.csv`.
 
-## Change log
+## Author
 
-| Version | Date | Summary |
-| --- | --- | --- |
-| 1.0 | 2026-10-28 | First issue. 93 controls tagged to UAE IA families and IEC 62443; back-links to OT-01 to OT-31 checked by script. |
+**Clive (Hakim) Bean**: ISO/IEC 27001 Lead Auditor (GRC Mastery, 2026, Credly-verified). Abu Dhabi.

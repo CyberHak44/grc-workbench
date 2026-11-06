@@ -1,0 +1,220 @@
+{
+ "updated": "2026-11-05",
+ "items": [
+  {
+   "id": "HZ-001",
+   "modules": [
+    "BANK",
+    "GOV",
+    "INS",
+    "HEALTH"
+   ],
+   "date": "2026-10-29",
+   "type": "Incident",
+   "status": "Verified",
+   "verified": "2026-11-05",
+   "title": "Binance: about USD 6.3 billion stolen from hot wallets, the largest crypto theft on record",
+   "summary": "Binance says the attack started from a compromised laptop that gave access to a service container, from which unauthorised withdrawals were submitted. Chainalysis and TRM Labs attribute it to TraderTraitor, the North Korea-linked group behind the 2025 Bybit theft. About USD 3 billion was frozen; Binance says it will cover losses.",
+   "sectors": [
+    "Crypto and virtual assets",
+    "Payments and fintech",
+    "Banks"
+   ],
+   "questions": [
+    "BSP-16",
+    "BSP-18",
+    "BSP-19",
+    "BSP-21",
+    "BSP-25",
+    "BSP-26"
+   ],
+   "advice": "One laptop was the way in. Check that admin and finance laptops are encrypted, patched and protected, used by one person only, and that admin accounts are separate with MFA. Ask whether high-value transfers need a second approver on a separate device.",
+   "sources": [
+    [
+     "Binance targeted in USD 6.3 billion crypto heist (NBC News, 29 Oct 2026)",
+     "https://www.nbcnews.com/business/markets/binance-hack-tether-circle-stablecoins-rcna606445"
+    ],
+    [
+     "Binance hack: tracing the theft to North Korea (Chainalysis)",
+     "https://www.chainalysis.com/blog/binance-exploit-latest-findings-and-response/"
+    ]
+   ]
+  },
+  {
+   "id": "HZ-002",
+   "modules": [
+    "BANK"
+   ],
+   "date": "2026-09-14",
+   "type": "Regulation",
+   "status": "In force",
+   "verified": "2026-10-28",
+   "title": "CBUAE Operational Risk Management Regulation (Circular C 1/2026) in force",
+   "summary": "Banks must assess providers, put audit, exit and subcontracting terms in contracts, keep their master system of record in the UAE, and notify CBUAE within 4 hours of events affecting Critical Operations and within 72 hours of high-risk incidents. Suppliers inherit these through contracts.",
+   "sectors": [
+    "Banks",
+    "Suppliers to banks"
+   ],
+   "questions": [
+    "BSP-01",
+    "BSP-07",
+    "BSP-08",
+    "BSP-10",
+    "BSP-11",
+    "BSP-30"
+   ],
+   "advice": "Suppliers to UAE banks should expect audit-rights, exit-plan, UAE data-location and fast incident-notice clauses in every new contract.",
+   "sources": [
+    [
+     "IE-REP-003 CBUAE ORM cyber crosswalk",
+     "https://github.com/CyberHak44/cbuae-orm-cyber-crosswalk"
+    ]
+   ]
+  },
+  {
+   "id": "HZ-003",
+   "modules": [
+    "OT",
+    "GOV"
+   ],
+   "date": "2026-07-30",
+   "type": "Advisory",
+   "status": "Verified",
+   "verified": "2026-11-05",
+   "title": "FBI and EPA warning: 'air-gapped' control systems often have hidden internet connections",
+   "summary": "Public service announcement I-073026-PSA on unmanaged connections into operational technology. IE case file CASE-007 records seven typical hidden routes.",
+   "sectors": [
+    "Critical infrastructure",
+    "Facilities and building systems"
+   ],
+   "questions": [
+    "BSP-24",
+    "BSP-26",
+    "BSP-33"
+   ],
+   "advice": "Do not accept 'it is air-gapped' without a walk-down: modems, remote-support tools and vendor laptops are the usual bridges.",
+   "sources": [
+    [
+     "IE case file CASE-007 (IE-REF-023)",
+     ""
+    ]
+   ]
+  },
+  {
+   "id": "HZ-004",
+   "modules": [
+    "B2B"
+   ],
+   "date": "2026-10-30",
+   "type": "Regulation",
+   "status": "In force",
+   "verified": "2026-11-05",
+   "title": "UAE e-invoicing: large businesses had to appoint a provider by 30 October 2026; other businesses selling to businesses or government by 31 March 2027",
+   "summary": "Ministerial Decisions No. 243 and 244 of 2025 phase in mandatory e-invoicing for sales to businesses and government; consumer-only sales are excluded for now. Revenue AED 50m and over: provider by 30 October 2026 (extended from 31 July), live 1 January 2027. Others: provider by 31 March 2027, live 1 July 2027. Cabinet Decision No. 106 of 2025 sets AED 5,000 per month for missing either step.",
+   "sectors": [
+    "All businesses"
+   ],
+   "questions": [
+    "COR-01",
+    "BSP-02"
+   ],
+   "advice": "Small businesses that invoice other businesses are included whether or not they are VAT-registered. Ask your accounting software supplier which Accredited Service Provider it connects to, and diary 31 March 2027.",
+   "sources": [
+    [
+     "UAE e-invoicing 2026: framework, timeline and obligations (Mondaq)",
+     "https://www.mondaq.com/tax-authorities/1728206/uae-e-invoicing-2026-what-businesses-need-to-know-about-the-new-framework-timeline-and-key-compliance-obligations"
+    ]
+   ]
+  },
+  {
+   "id": "HZ-005",
+   "modules": [
+    "DRONE"
+   ],
+   "date": "2026-06-30",
+   "type": "Regulation",
+   "status": "Reported, not confirmed by GCAA notice",
+   "verified": "2026-11-05",
+   "title": "GCAA drone suspension: operators report commercial flying resumed 30 June 2026",
+   "summary": "GCAA Safety Decision 2026-03 suspended drone authorisations from 28 February 2026; Issue 03 (27 April 2026) lifted only Part SPO operations and gave no end date. Operators report GCAA and DCAA notifications allowing commercial flying from 30 June 2026; no GCAA lifting notice was located.",
+   "sectors": [
+    "Drones and aviation",
+    "Logistics and delivery"
+   ],
+   "questions": [
+    "DRN-01",
+    "DRN-07"
+   ],
+   "advice": "Drone operators should check every authorisation and approval is current and hold a continuity plan for a future grounding.",
+   "sources": [
+    [
+     "GCAA Safety Decision 2026-03 Issue 03",
+     "https://www.gcaa.gov.ae/en/epublication/EPublications/Safety%20Decisions/2026/2035-SAFETY%20DECISION%202026-03%20-%20TEMPORARY%20SUSPENSION%20OF%20UNMANNED%20AIRCRAFT%20SYSTEMS%20DRONES%20LIGHT%20SPORT%20AIRCRAFT%20AND%20BALLOON%20-%20ISSUE%2003.pdf"
+    ],
+    [
+     "UAV operations resume in Dubai (GNSS.ae, operator report)",
+     "https://gnss.ae/uav-operations-resume-in-dubai-what-the-lifting-of-flight-restrictions-means-for-the-industry/"
+    ]
+   ]
+  },
+  {
+   "id": "HZ-006",
+   "modules": [
+    "AV"
+   ],
+   "date": "2026-09-02",
+   "type": "Regulation",
+   "status": "Approved",
+   "verified": "2026-11-05",
+   "title": "UAE Cabinet approves federal rules for inspecting, registering, licensing and testing self-driving vehicles",
+   "summary": "Approved 2 September 2026 under the federal traffic framework (Federal Decree-Law No. 14 of 2024); some outlets describe it as a federal law. It sits above emirate rules: Dubai Law No. 9 of 2023, Abu Dhabi ITC operating permits and Ras Al Khaimah Law No. 1 of 2026.",
+   "sectors": [
+    "Autonomous vehicles",
+    "Transport",
+    "Logistics and delivery"
+   ],
+   "questions": [
+    "AV-01",
+    "AV-05",
+    "AV-07"
+   ],
+   "advice": "AV operators should map their emirate permits to the federal law as its regulations are issued, and keep safety case and incident reporting ready.",
+   "sources": [
+    [
+     "UAE approves federal law for self-driving cars (Khaleej Times)",
+     "https://www.khaleejtimes.com/uae/transport/uae-approves-federal-law-for-self-driving-cars-sheikh-mohammed-announces"
+    ]
+   ]
+  },
+  {
+   "id": "HZ-007",
+   "modules": [
+    "AI"
+   ],
+   "date": "2026-06-14",
+   "type": "Regulation",
+   "status": "Approved",
+   "verified": "2026-11-05",
+   "title": "Federal Artificial Intelligence and Data Authority established",
+   "summary": "The federal Artificial Intelligence and Data Authority was established on 14 June 2026, absorbing the UAE Data Office. There is still no standalone UAE AI law; the UAE AI Charter and the PDPL govern AI use on personal data.",
+   "sectors": [
+    "AI and data",
+    "All businesses using AI"
+   ],
+   "questions": [
+    "AI-01",
+    "AI-02",
+    "AI-03",
+    "BSP-28",
+    "BSP-34"
+   ],
+   "advice": "Businesses using AI on people's data should keep an AI register, human review of decisions, and impact assessments now, ahead of the authority's rules.",
+   "sources": [
+    [
+     "UAE establishes federal authority for AI and data (Morgan Lewis, June 2026)",
+     "https://www.morganlewis.com/pubs/2026/06/uae-establishes-federal-authority-for-artificial-intelligence-and-data"
+    ]
+   ]
+  }
+ ]
+}

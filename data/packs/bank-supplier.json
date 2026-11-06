@@ -1,0 +1,1041 @@
+{
+ "pack_id": "bank-supplier",
+ "pack_name": "Supplier to a CBUAE-licensed bank",
+ "tool_name": "GRC Readiness Review",
+ "version": "1.0",
+ "status": "Public baseline: built from public regulation, replaced by the bank's own questionnaire when received",
+ "sources": [
+  "CBUAE Operational Risk Management Regulation, Circular C 1/2026 (crosswalk IE-REP-003)",
+  "UAE Information Assurance Regulation (control families via grc-workbench control library)",
+  "UAE Personal Data Protection Law, Federal Decree-Law No. 45 of 2021",
+  "ISO/IEC 27001:2022 Annex A"
+ ],
+ "note": "CBUAE obligations sit on the bank. These questions cover what the bank needs from its supplier to meet them.",
+ "areas": {
+  "GOV": "Governance and legal standing",
+  "CON": "Contracts and data handling",
+  "PPL": "People",
+  "TEC": "Technology controls",
+  "INC": "Incidents and continuity",
+  "CMP": "Compliance and assurance"
+ },
+ "roles": [
+  "Owner",
+  "IT",
+  "HR",
+  "Finance"
+ ],
+ "pass_rule": {
+  "version": "1.0",
+  "min_readiness": 80,
+  "text": [
+   "Every question answered",
+   "Every Critical control Met (answered Yes and management will sign for it)",
+   "No High control answered No or Not sure",
+   "Readiness at least 80%"
+  ],
+  "na_blocked_severities": [
+   "Critical"
+  ]
+ },
+ "questions": [
+  {
+   "id": "BSP-01",
+   "title": "Valid trade licence covering services",
+   "area": "GOV",
+   "area_name": "Governance and legal standing",
+   "role": "Owner",
+   "question": "Is your trade licence valid, and does it cover every service you would sell to the bank?",
+   "why": "The bank must assess you as a provider before contracting; an expired licence or an activity not on it ends the conversation.",
+   "severity": "Critical",
+   "weight": 4,
+   "iso27001": [
+    "A.5.31"
+   ],
+   "cbuae": [
+    "Art 13.4-13.5"
+   ],
+   "uae_ia": [
+    "M5"
+   ],
+   "other": [],
+   "fix": [
+    "Check the licence expiry date and the listed activities against your service list.",
+    "If an activity is missing, apply to your free zone or DED to add it before quoting.",
+    "Put the renewal date on a renewal register with reminders at 60, 30 and 7 days.",
+    "Keep a current copy ready to send with any tender response."
+   ],
+   "ie_service": "Business Security Audit: renewal register set-up"
+  },
+  {
+   "id": "BSP-02",
+   "title": "Filings, tax and renewals up to date",
+   "area": "GOV",
+   "area_name": "Governance and legal standing",
+   "role": "Finance",
+   "question": "Are all statutory filings, tax registrations and renewals up to date, with nothing overdue?",
+   "why": "Banks check public registers and tax status; anything overdue is read as weak control.",
+   "severity": "High",
+   "weight": 3,
+   "iso27001": [
+    "A.5.31"
+   ],
+   "cbuae": [
+    "Art 13.9-13.12"
+   ],
+   "uae_ia": [
+    "M5"
+   ],
+   "other": [
+    "UAE Corporate Tax"
+   ],
+   "fix": [
+    "List every legal date: licence, visas, establishment card, audit, Corporate Tax, VAT.",
+    "Clear anything overdue first, including penalties.",
+    "Give one accountant responsibility for statutory filings.",
+    "Review the list every month."
+   ],
+   "ie_service": "Business Security Audit: renewal register set-up"
+  },
+  {
+   "id": "BSP-03",
+   "title": "Named security owner",
+   "area": "GOV",
+   "area_name": "Governance and legal standing",
+   "role": "Owner",
+   "question": "Is one named person accountable for information security, with the time and authority to act?",
+   "why": "Banks want a named security contact who can answer for controls and incidents.",
+   "severity": "High",
+   "weight": 3,
+   "iso27001": [
+    "A.5.2"
+   ],
+   "cbuae": [
+    "Art 4.6"
+   ],
+   "uae_ia": [
+    "M1"
+   ],
+   "other": [],
+   "fix": [
+    "Name the person in writing, with a deputy.",
+    "Record their responsibilities in the security policy.",
+    "Give the bank their name and contact details at onboarding."
+   ],
+   "ie_service": "Fractional CISO (GRC advisory)"
+  },
+  {
+   "id": "BSP-04",
+   "title": "Approved information security policy",
+   "area": "GOV",
+   "area_name": "Governance and legal standing",
+   "role": "Owner",
+   "question": "Do you have a written information security policy, approved by management and reviewed at least once a year?",
+   "why": "The bank's own ICT and cyber policy must extend to its providers; it will ask for yours.",
+   "severity": "High",
+   "weight": 3,
+   "iso27001": [
+    "A.5.1"
+   ],
+   "cbuae": [
+    "Art 8.6"
+   ],
+   "uae_ia": [
+    "M1"
+   ],
+   "other": [],
+   "fix": [
+    "Adopt a short policy set: acceptable use, access and MFA, devices, data handling, incidents, backup, suppliers.",
+    "Have management approve and date it.",
+    "Brief every person who works on client accounts.",
+    "Diary the annual review."
+   ],
+   "ie_service": "Security policy pack (GRC advisory)"
+  },
+  {
+   "id": "BSP-05",
+   "title": "PI and cyber insurance",
+   "area": "GOV",
+   "area_name": "Governance and legal standing",
+   "role": "Finance",
+   "question": "Do you hold professional indemnity insurance, and have you decided on cyber insurance, at levels a bank would accept?",
+   "why": "Banks require proof of cover before contract and check a provider's financial standing.",
+   "severity": "High",
+   "weight": 3,
+   "iso27001": [
+    "A.5.31"
+   ],
+   "cbuae": [
+    "Art 13.4-13.5",
+    "Art 13.9-13.12"
+   ],
+   "uae_ia": [
+    "M5"
+   ],
+   "other": [],
+   "fix": [
+    "Ask the bank or tender for its minimum limits.",
+    "Get two quotes from a broker for PI and cyber cover.",
+    "Bind cover before the contract starts and keep the certificate ready to send.",
+    "Put the renewal date on the renewal register."
+   ],
+   "ie_service": "Broker introduction (partner)"
+  },
+  {
+   "id": "BSP-06",
+   "title": "Financial statements available",
+   "area": "GOV",
+   "area_name": "Governance and legal standing",
+   "role": "Finance",
+   "question": "Could you show the bank your latest financial statements if asked?",
+   "why": "The bank must monitor the financial condition of providers it relies on.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.5.31"
+   ],
+   "cbuae": [
+    "Art 13.9-13.12"
+   ],
+   "uae_ia": [
+    "M5"
+   ],
+   "other": [],
+   "fix": [
+    "Prepare the latest annual accounts, audited if your licence requires it.",
+    "Agree with your accountant what can be shared and under NDA.",
+    "Keep a one-page financial summary ready for tenders."
+   ],
+   "ie_service": "Accountant (client's own)"
+  },
+  {
+   "id": "BSP-07",
+   "title": "Bank and CBUAE audit rights in contract",
+   "area": "CON",
+   "area_name": "Contracts and data handling",
+   "role": "Owner",
+   "question": "Would your standard contract accept the bank's audit and inspection rights, including examination by CBUAE?",
+   "why": "CBUAE requires banks' contracts to give audit access and allow CBUAE examination for critical outsourcing.",
+   "severity": "High",
+   "weight": 3,
+   "iso27001": [
+    "A.5.20"
+   ],
+   "cbuae": [
+    "Art 13.6-13.8"
+   ],
+   "uae_ia": [
+    "T6"
+   ],
+   "other": [],
+   "fix": [
+    "Read your terms for audit, inspection and regulator access clauses.",
+    "Add a clause allowing the client, its auditors and its regulator to audit on reasonable notice.",
+    "Have the terms legally reviewed."
+   ],
+   "ie_service": "Contract review (GRC advisory with legal partner)"
+  },
+  {
+   "id": "BSP-08",
+   "title": "Obligations flowed to subcontractors",
+   "area": "CON",
+   "area_name": "Contracts and data handling",
+   "role": "Owner",
+   "question": "If you use subcontractors or partners, do your contracts with them pass on the same security, confidentiality and audit obligations?",
+   "why": "CBUAE requires the same protections to flow to subcontractors.",
+   "severity": "High",
+   "weight": 3,
+   "iso27001": [
+    "A.5.21",
+    "A.5.19"
+   ],
+   "cbuae": [
+    "Art 13.6-13.8"
+   ],
+   "uae_ia": [
+    "T6"
+   ],
+   "other": [],
+   "fix": [
+    "List every subcontractor that could touch bank data or systems.",
+    "Add flow-down clauses: confidentiality, security, audit, incident notice, no further subcontracting without approval.",
+    "Get each subcontractor to sign."
+   ],
+   "ie_service": "Supplier contract pack (GRC advisory)"
+  },
+  {
+   "id": "BSP-09",
+   "title": "Data processing agreement",
+   "area": "CON",
+   "area_name": "Contracts and data handling",
+   "role": "Owner",
+   "question": "Do you have a data processing agreement ready for clients whose personal data you handle?",
+   "why": "UAE PDPL requires processors to act on documented instructions; banks will not share personal data without one.",
+   "severity": "High",
+   "weight": 3,
+   "iso27001": [
+    "A.5.34"
+   ],
+   "cbuae": [
+    "Art 13.6-13.8"
+   ],
+   "uae_ia": [
+    "M5"
+   ],
+   "other": [
+    "UAE PDPL"
+   ],
+   "fix": [
+    "Adopt a data processing agreement template under the UAE PDPL (and DIFC or ADGM law where relevant).",
+    "Reference it in your terms of business.",
+    "Keep a record of which clients have signed it."
+   ],
+   "ie_service": "DPA template (GRC advisory)"
+  },
+  {
+   "id": "BSP-10",
+   "title": "Exit plan: return or delete data",
+   "area": "CON",
+   "area_name": "Contracts and data handling",
+   "role": "Owner",
+   "question": "Do you have an exit plan: at contract end, return or securely delete the bank's data and hand over the service?",
+   "why": "CBUAE requires viable exit plans for outsourcing arrangements.",
+   "severity": "High",
+   "weight": 3,
+   "iso27001": [
+    "A.5.20",
+    "A.8.10"
+   ],
+   "cbuae": [
+    "Art 13.9-13.12"
+   ],
+   "uae_ia": [
+    "T1",
+    "T6"
+   ],
+   "other": [],
+   "fix": [
+    "Write a one-page exit plan: what is returned, what is deleted, in what time, and how deletion is confirmed.",
+    "Add the exit commitment to your contract.",
+    "Test it once with a dummy client folder."
+   ],
+   "ie_service": "Exit plan template (GRC advisory)"
+  },
+  {
+   "id": "BSP-11",
+   "title": "Data location known, UAE possible",
+   "area": "CON",
+   "area_name": "Contracts and data handling",
+   "role": "IT",
+   "question": "Do you know where any bank data you hold would be stored, and could you keep it in the UAE if required?",
+   "why": "Banks must keep their master system of record in the UAE, including when outsourced.",
+   "severity": "High",
+   "weight": 3,
+   "iso27001": [
+    "A.5.23"
+   ],
+   "cbuae": [
+    "Art 8.9"
+   ],
+   "uae_ia": [
+    "T6"
+   ],
+   "other": [],
+   "fix": [
+    "List every system that would hold bank data and its storage region.",
+    "Choose UAE-region services (for example Microsoft UAE North) or keep no copy outside the bank's environment.",
+    "State the data location in your proposal."
+   ],
+   "ie_service": "Managed Microsoft 365 (UAE region set-up)"
+  },
+  {
+   "id": "BSP-12",
+   "title": "Confidentiality agreements signed",
+   "area": "CON",
+   "area_name": "Contracts and data handling",
+   "role": "HR",
+   "question": "Has everyone who could access client information signed a confidentiality agreement?",
+   "why": "Banks require confidentiality from everyone with access, including contractors.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.6.6"
+   ],
+   "cbuae": [
+    "Art 13.6-13.8"
+   ],
+   "uae_ia": [
+    "M4"
+   ],
+   "other": [],
+   "fix": [
+    "Add a confidentiality clause to employment and contractor agreements.",
+    "Get existing staff and contractors to sign.",
+    "Keep signed copies on file."
+   ],
+   "ie_service": "HR document pack (GRC advisory)"
+  },
+  {
+   "id": "BSP-13",
+   "title": "Background screening",
+   "area": "PPL",
+   "area_name": "People",
+   "role": "HR",
+   "question": "Are staff and contractors background-checked at hiring, and can they complete a client's screening if asked?",
+   "why": "Banks screen people who access their systems and expect suppliers to cooperate.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.6.1"
+   ],
+   "cbuae": [
+    "Art 13.4-13.5"
+   ],
+   "uae_ia": [
+    "M4"
+   ],
+   "other": [],
+   "fix": [
+    "Define basic checks at hiring: identity, right to work, references.",
+    "Agree that staff will complete a client's screening (for example a police clearance certificate) when requested.",
+    "Record that the checks were done, not the results."
+   ],
+   "ie_service": "HR document pack (GRC advisory)"
+  },
+  {
+   "id": "BSP-14",
+   "title": "Annual security awareness training",
+   "area": "PPL",
+   "area_name": "People",
+   "role": "HR",
+   "question": "Do all staff complete security awareness training at least once a year, with a record of completion?",
+   "why": "CBUAE expects the bank's risk approach to be communicated to third parties.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.6.3"
+   ],
+   "cbuae": [
+    "Art 4.6"
+   ],
+   "uae_ia": [
+    "M3"
+   ],
+   "other": [],
+   "fix": [
+    "Run a short annual course: phishing, passwords and MFA, reporting incidents.",
+    "Record names and completion dates.",
+    "Repeat for new joiners within their first month."
+   ],
+   "ie_service": "Security awareness training"
+  },
+  {
+   "id": "BSP-15",
+   "title": "Same-day leaver access removal",
+   "area": "PPL",
+   "area_name": "People",
+   "role": "IT",
+   "question": "When someone leaves, is all their access removed on their last day?",
+   "why": "Leavers with live access are a common cause of incidents.",
+   "severity": "High",
+   "weight": 3,
+   "iso27001": [
+    "A.5.18"
+   ],
+   "cbuae": [
+    "Art 8.6"
+   ],
+   "uae_ia": [
+    "T5"
+   ],
+   "other": [],
+   "fix": [
+    "Keep a list of every account each person has.",
+    "Use a leaver checklist; disable accounts on the last day.",
+    "Review all accounts every quarter."
+   ],
+   "ie_service": "Managed Microsoft 365 (identity management)"
+  },
+  {
+   "id": "BSP-16",
+   "title": "MFA on all accounts",
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "IT",
+   "question": "Is multi-factor authentication on for every account that reaches company or client data: email, cloud, remote access and admin?",
+   "why": "Account takeover is the commonest way into a supplier, and through it into the bank.",
+   "severity": "Critical",
+   "weight": 4,
+   "iso27001": [
+    "A.8.5"
+   ],
+   "cbuae": [
+    "Art 8.6"
+   ],
+   "uae_ia": [
+    "T5"
+   ],
+   "other": [
+    "UAE IA"
+   ],
+   "fix": [
+    "List every business account.",
+    "Turn on MFA with an authenticator app or key; avoid SMS where possible.",
+    "Enforce it centrally (Google Admin or Microsoft Entra Conditional Access).",
+    "Record the method per account."
+   ],
+   "ie_service": "Managed Microsoft 365 (MFA and Conditional Access)"
+  },
+  {
+   "id": "BSP-17",
+   "title": "Password manager, no shared accounts",
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "IT",
+   "question": "Are passwords unique and held in a password manager, with no shared accounts?",
+   "why": "Shared and reused passwords defeat every other access control.",
+   "severity": "High",
+   "weight": 3,
+   "iso27001": [
+    "A.5.17"
+   ],
+   "cbuae": [
+    "Art 8.6"
+   ],
+   "uae_ia": [
+    "T5"
+   ],
+   "other": [],
+   "fix": [
+    "Deploy a business password manager with MFA on it.",
+    "Replace shared logins with named accounts.",
+    "Move credentials in and change each to a generated password."
+   ],
+   "ie_service": "Managed Cyber Security (password manager roll-out)"
+  },
+  {
+   "id": "BSP-18",
+   "title": "Encrypted laptops and phones",
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "IT",
+   "question": "Are all laptops and phones encrypted (BitLocker, FileVault or built-in phone encryption), with recovery keys held safely?",
+   "why": "A lost unencrypted laptop is a reportable data breach.",
+   "severity": "High",
+   "weight": 3,
+   "iso27001": [
+    "A.8.1",
+    "A.8.24"
+   ],
+   "cbuae": [
+    "Art 8.6"
+   ],
+   "uae_ia": [
+    "T3",
+    "T7"
+   ],
+   "other": [],
+   "fix": [
+    "Turn on BitLocker or Device Encryption on Windows, FileVault on Mac, a passcode on phones.",
+    "Store recovery keys in the password manager or the company admin console, never only on the device.",
+    "Confirm with manage-bde -status C: and keep the result."
+   ],
+   "ie_service": "Managed Cyber Security (device encryption)"
+  },
+  {
+   "id": "BSP-19",
+   "title": "Work devices not shared",
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "IT",
+   "question": "Are work devices used only by authorised staff, and never shared with family or others?",
+   "why": "A bank's questionnaire asks whether devices are used only by authorised staff.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.8.1"
+   ],
+   "cbuae": [
+    "Art 8.6"
+   ],
+   "uae_ia": [
+    "T3"
+   ],
+   "other": [],
+   "fix": [
+    "Issue work devices to named people only.",
+    "Give family members their own device or a separate account.",
+    "State the rule in the acceptable use policy."
+   ],
+   "ie_service": "Security policy pack (GRC advisory)"
+  },
+  {
+   "id": "BSP-20",
+   "title": "Supported and patched systems",
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "IT",
+   "question": "Are operating systems and software supported and patched within 14 days (critical fixes faster)?",
+   "why": "CBUAE requires banks to manage obsolete systems, including those run by third parties.",
+   "severity": "High",
+   "weight": 3,
+   "iso27001": [
+    "A.8.8"
+   ],
+   "cbuae": [
+    "Art 8.8"
+   ],
+   "uae_ia": [
+    "T3"
+   ],
+   "other": [],
+   "fix": [
+    "Turn on automatic updates on every device.",
+    "Replace any unsupported operating system or software.",
+    "Check update status monthly."
+   ],
+   "ie_service": "Managed Cyber Security (patching)"
+  },
+  {
+   "id": "BSP-21",
+   "title": "Endpoint protection on every device",
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "IT",
+   "question": "Is anti-malware or endpoint protection running and up to date on every device?",
+   "why": "Malware on a supplier device can reach bank data and accounts.",
+   "severity": "High",
+   "weight": 3,
+   "iso27001": [
+    "A.8.7"
+   ],
+   "cbuae": [
+    "Art 8.6"
+   ],
+   "uae_ia": [
+    "T3"
+   ],
+   "other": [],
+   "fix": [
+    "Use Microsoft Defender or an equivalent endpoint product on every device.",
+    "Manage it centrally so alerts are seen.",
+    "Check weekly that every device reports in."
+   ],
+   "ie_service": "Managed Cyber Security (endpoint protection)"
+  },
+  {
+   "id": "BSP-22",
+   "title": "SPF, DKIM and enforced DMARC",
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "IT",
+   "question": "Does your email domain publish SPF, DKIM and an enforced DMARC policy?",
+   "why": "Without them anyone can send email as you, including fake invoices to the bank.",
+   "severity": "High",
+   "weight": 3,
+   "iso27001": [
+    "A.5.14"
+   ],
+   "cbuae": [
+    "Art 8.6"
+   ],
+   "uae_ia": [
+    "T4"
+   ],
+   "other": [],
+   "fix": [
+    "Enable DKIM signing in your email platform.",
+    "Publish DMARC at p=none with reports, then move to quarantine, then reject.",
+    "Protect parked domains with a null SPF record and DMARC reject."
+   ],
+   "ie_service": "Managed Cyber Security (email authentication)"
+  },
+  {
+   "id": "BSP-23",
+   "title": "Independent, tested backups",
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "IT",
+   "question": "Are backups kept independently and encrypted, with a restore tested at least every quarter?",
+   "why": "CBUAE requires continuity and recovery capability, including at providers the bank depends on.",
+   "severity": "High",
+   "weight": 3,
+   "iso27001": [
+    "A.8.13"
+   ],
+   "cbuae": [
+    "Art 11.1-11.9"
+   ],
+   "uae_ia": [
+    "T3"
+   ],
+   "other": [],
+   "fix": [
+    "Keep a second copy separate from the working device or tenant, encrypted.",
+    "Restore one real file each quarter and log the result.",
+    "Fix and re-test any failure."
+   ],
+   "ie_service": "Managed backup"
+  },
+  {
+   "id": "BSP-24",
+   "title": "Asset inventory",
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "IT",
+   "question": "Do you keep an up-to-date list of devices, systems and cloud services in use?",
+   "why": "The bank must know which of its supplier's systems touch its data.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.5.9"
+   ],
+   "cbuae": [
+    "Art 8.8"
+   ],
+   "uae_ia": [
+    "T1"
+   ],
+   "other": [],
+   "fix": [
+    "List devices, software and cloud services with owner and end-of-support date.",
+    "Update it when anything is added or removed.",
+    "Review it quarterly."
+   ],
+   "ie_service": "Business Security Audit: asset register"
+  },
+  {
+   "id": "BSP-25",
+   "title": "Limited admin rights, separate accounts",
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "IT",
+   "question": "Are administrator rights limited to the people who need them, using separate admin accounts?",
+   "why": "Everyday accounts with admin rights turn one phishing email into full control.",
+   "severity": "High",
+   "weight": 3,
+   "iso27001": [
+    "A.8.2"
+   ],
+   "cbuae": [
+    "Art 8.6"
+   ],
+   "uae_ia": [
+    "T5"
+   ],
+   "other": [],
+   "fix": [
+    "Remove admin rights from everyday accounts.",
+    "Create separate admin accounts with MFA for the few who need them.",
+    "Review admin membership quarterly."
+   ],
+   "ie_service": "Managed Microsoft 365 (privileged access)"
+  },
+  {
+   "id": "BSP-26",
+   "title": "Security alerts logged and reviewed",
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "IT",
+   "question": "Are sign-in and security alerts logged and reviewed?",
+   "why": "Detection depends on someone looking at the alerts.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.8.15",
+    "A.8.16"
+   ],
+   "cbuae": [
+    "Art 8.5"
+   ],
+   "uae_ia": [
+    "T3"
+   ],
+   "other": [],
+   "fix": [
+    "Turn on audit logging in your email and cloud platform.",
+    "Set alerts for risky sign-ins and mailbox forwarding rules.",
+    "Review alerts weekly, or use a monitored service."
+   ],
+   "ie_service": "IE Watch monitoring"
+  },
+  {
+   "id": "BSP-27",
+   "title": "Independent vulnerability test",
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "IT",
+   "question": "Have you had an independent vulnerability scan or penetration test in the last 12 months?",
+   "why": "CBUAE expects stress and penetration testing, and banks extend this to key providers.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.8.8"
+   ],
+   "cbuae": [
+    "Art 7.13-7.14"
+   ],
+   "uae_ia": [
+    "T3"
+   ],
+   "other": [],
+   "fix": [
+    "Commission an external vulnerability scan of your internet-facing services.",
+    "Fix high and critical findings and re-test.",
+    "Keep the summary ready for the bank."
+   ],
+   "ie_service": "Vulnerability assessment (partner)"
+  },
+  {
+   "id": "BSP-28",
+   "title": "Rules for AI tools",
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "Owner",
+   "question": "Do you have rules for AI tools, so no client data goes into public AI services?",
+   "why": "Bank data pasted into a public AI tool leaves the bank's control.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.5.10"
+   ],
+   "cbuae": [
+    "Art 8.6"
+   ],
+   "uae_ia": [
+    "T1"
+   ],
+   "other": [
+    "UAE PDPL"
+   ],
+   "fix": [
+    "Write a one-paragraph AI use rule into the acceptable use policy.",
+    "List approved business AI tools whose terms exclude training on your data.",
+    "Brief staff."
+   ],
+   "ie_service": "Security policy pack (GRC advisory)"
+  },
+  {
+   "id": "BSP-29",
+   "title": "Incident response plan",
+   "area": "INC",
+   "area_name": "Incidents and continuity",
+   "role": "Owner",
+   "question": "Do you have a written incident response plan with named roles and contact details?",
+   "why": "CBUAE requires banks to run a full incident lifecycle, which depends on providers responding properly.",
+   "severity": "High",
+   "weight": 3,
+   "iso27001": [
+    "A.5.24"
+   ],
+   "cbuae": [
+    "Art 9.4-9.5"
+   ],
+   "uae_ia": [
+    "T8"
+   ],
+   "other": [],
+   "fix": [
+    "Write a short plan: report, contain, assess, notify, recover, review.",
+    "Name who does what, with phone numbers.",
+    "Run a 30-minute tabletop exercise once a year."
+   ],
+   "ie_service": "Incident response plan (GRC advisory)"
+  },
+  {
+   "id": "BSP-30",
+   "title": "Incident notice fast enough for CBUAE deadlines",
+   "area": "INC",
+   "area_name": "Incidents and continuity",
+   "role": "Owner",
+   "question": "Could you notify the bank of an incident affecting it fast enough for the bank to meet CBUAE's 4-hour, 24-hour and 72-hour reporting deadlines?",
+   "why": "Banks must notify CBUAE within 4 hours of events affecting Critical Operations and within 72 hours of high-risk incidents; they pass this down to suppliers.",
+   "severity": "Critical",
+   "weight": 4,
+   "iso27001": [
+    "A.5.24",
+    "A.5.26"
+   ],
+   "cbuae": [
+    "Art 15.2",
+    "Art 15.3"
+   ],
+   "uae_ia": [
+    "T8"
+   ],
+   "other": [],
+   "fix": [
+    "Commit in your contract to notify the bank within the time it sets (often 1 to 4 hours of awareness).",
+    "Keep a notification template: what happened, which services, actions taken, expected recovery.",
+    "Make sure partners notify you fast enough to meet it."
+   ],
+   "ie_service": "Incident response plan (GRC advisory)"
+  },
+  {
+   "id": "BSP-31",
+   "title": "Incident log",
+   "area": "INC",
+   "area_name": "Incidents and continuity",
+   "role": "IT",
+   "question": "Do you keep a log of security incidents and near misses, reviewed for lessons?",
+   "why": "No log means no evidence of control.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.5.27"
+   ],
+   "cbuae": [
+    "Art 9.4-9.5"
+   ],
+   "uae_ia": [
+    "T8"
+   ],
+   "other": [],
+   "fix": [
+    "Start an incident log, even if it is empty: date, what, impact, action, lesson.",
+    "Review it monthly.",
+    "Feed lessons into policies and training."
+   ],
+   "ie_service": "Incident response plan (GRC advisory)"
+  },
+  {
+   "id": "BSP-32",
+   "title": "Tested business continuity plan",
+   "area": "INC",
+   "area_name": "Incidents and continuity",
+   "role": "Owner",
+   "question": "Do you have a business continuity plan covering loss of systems, premises and key people, tested at least once a year?",
+   "why": "CBUAE requires continuity for Critical Operations, including scenarios like key staff being unavailable.",
+   "severity": "High",
+   "weight": 3,
+   "iso27001": [
+    "A.5.29",
+    "A.5.30"
+   ],
+   "cbuae": [
+    "Art 11.1-11.9"
+   ],
+   "uae_ia": [
+    "T9"
+   ],
+   "other": [],
+   "fix": [
+    "Write a short continuity plan: what stops, how you keep serving clients, recovery times.",
+    "Name a deputy and set up break-glass access to key accounts.",
+    "Test once a year and record the result."
+   ],
+   "ie_service": "Business continuity statement (GRC advisory)"
+  },
+  {
+   "id": "BSP-33",
+   "title": "Own suppliers assessed",
+   "area": "INC",
+   "area_name": "Incidents and continuity",
+   "role": "Owner",
+   "question": "Do you assess the security of your own critical suppliers (cloud, software, subcontractors)?",
+   "why": "The bank's supply chain includes your suppliers.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.5.19",
+    "A.5.22"
+   ],
+   "cbuae": [
+    "Art 13.6-13.8"
+   ],
+   "uae_ia": [
+    "T6"
+   ],
+   "other": [],
+   "fix": [
+    "List your critical suppliers.",
+    "Check each one's security terms or certifications.",
+    "Review yearly and keep a record."
+   ],
+   "ie_service": "Supplier risk review (GRC advisory)"
+  },
+  {
+   "id": "BSP-34",
+   "title": "Privacy notice and PDPL compliance",
+   "area": "CMP",
+   "area_name": "Compliance and assurance",
+   "role": "Owner",
+   "question": "Have you published an accurate privacy notice and do you meet your obligations under the UAE PDPL?",
+   "why": "Banks will not share customer data with a provider that cannot show PDPL compliance.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.5.34"
+   ],
+   "cbuae": [
+    "Art 10.2-10.3"
+   ],
+   "uae_ia": [
+    "M5"
+   ],
+   "other": [
+    "UAE PDPL"
+   ],
+   "fix": [
+    "Publish a privacy notice that matches what you actually do.",
+    "Keep a one-page record of what personal data you hold, why, where and for how long.",
+    "Name who handles data subject requests."
+   ],
+   "ie_service": "Privacy pack (GRC advisory)"
+  },
+  {
+   "id": "BSP-35",
+   "title": "Certification or dated plan",
+   "area": "CMP",
+   "area_name": "Compliance and assurance",
+   "role": "Owner",
+   "question": "Do you hold a security certification (for example ISO/IEC 27001), or have a dated plan to get one?",
+   "why": "Certification shortens bank due diligence; a plan shows direction.",
+   "severity": "Low",
+   "weight": 1,
+   "iso27001": [
+    "A.5.35"
+   ],
+   "cbuae": [
+    "Art 13.4-13.5"
+   ],
+   "uae_ia": [
+    "M6"
+   ],
+   "other": [],
+   "fix": [
+    "Decide which certification your buyers ask for.",
+    "Run a gap assessment and set a target date.",
+    "Share the plan with the bank if not yet certified."
+   ],
+   "ie_service": "ISO 27001 readiness (GRC advisory)"
+  },
+  {
+   "id": "BSP-36",
+   "title": "Independent review in last 12 months",
+   "area": "CMP",
+   "area_name": "Compliance and assurance",
+   "role": "Owner",
+   "question": "Has your security been independently reviewed in the last 12 months?",
+   "why": "An independent review is the bank's assurance that your answers are true.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.5.35"
+   ],
+   "cbuae": [
+    "Art 13.4-13.5"
+   ],
+   "uae_ia": [
+    "M6"
+   ],
+   "other": [],
+   "fix": [
+    "Commission an independent review against a recognised standard.",
+    "Fix the findings and keep the summary.",
+    "Repeat every year."
+   ],
+   "ie_service": "Business Security Audit"
+  }
+ ]
+}

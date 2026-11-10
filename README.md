@@ -2,7 +2,7 @@
 
 One browser-based tool for asset and risk registers, the ISO/IEC 27001 Statement of Applicability, third-party risk scoring and CBUAE readiness, all sharing one data set. Every control is tagged to ISO/IEC 27001:2022, the UAE IA Regulation and IEC 62443, so one assessment answers all three. Data stays on the user's machine.
 
-**Status:** v1.3. All six stages built and branded. Adds the GRC Readiness Review (`readiness-review.html`), a second tool for analyst-led readiness reviews of micro businesses and SMEs.
+**Status:** v1.5. All six stages built and branded. Adds the GRC Readiness Review (`readiness-review.html`), a second tool for analyst-led readiness reviews of micro businesses and SMEs.
 
 ## Run it
 
@@ -38,6 +38,7 @@ An analyst asks the client's owner a short set of questions and the review works
 - **Current developments:** a ticker of verified regulatory changes and incidents, filtered to each client.
 - **90-day fact rule:** every rule and development carries the date it was last checked against its source. Exports are blocked once any entry is more than 90 days old.
 - **No secrets, no evidence:** the review records answers only. It never asks for passwords, MFA codes, encryption keys, documents or identification numbers.
+- **One master list:** the same question library generates the review, the Business Security Audit workbook and the discovery checklist, so the three tools cannot drift apart.
 - **Anonymised gap log:** exports hold counts only (quarter, sector, size band, emirate). Analyst notes are never exported.
 
 Screening shows which rules are likely to apply; it is not legal advice.
@@ -53,7 +54,7 @@ Screening shows which rules are likely to apply; it is not legal advice.
 | `data/cbuae.js` | The same requirements as JavaScript. Generated; do not edit by hand |
 | `tools/build-data.js` | Rebuilds both `.js` data files from the CSVs: `node tools/build-data.js` |
 | `readiness-review.html` | The GRC Readiness Review: one page, no external libraries, question library and developments built in |
-| `data/library.json` | The readiness review question library (v2.2): screening, modules, rules with sources and check dates, questions, pass rule |
+| `data/library.json` | The readiness review question library (v2.2): screening, modules, rules with sources and check dates, questions with the evidence to look for, pass rule |
 | `data/horizon.json` | Current developments shown in the ticker, each with sources and a check date |
 
 ## How the modules connect

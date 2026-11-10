@@ -1,5 +1,5 @@
 {
- "library_version": "2.1",
+ "library_version": "2.2",
  "tool_name": "GRC Readiness Review",
  "modules": {
   "CORE": {
@@ -25,6 +25,20 @@
      "note": "Sets the offences your controls protect against, and the line you must not cross when testing systems.",
      "src": "",
      "verified": "2026-11-05"
+    },
+    {
+     "name": "Hidden connections (IE-REF-023)",
+     "status": "Good practice, mapped to ISO/IEC 27001, IEC 62443 and UAE IA",
+     "note": "Remote support tools, USB sticks, contractor laptops, extra internet links and shared PCs are common hidden routes into a business. Most are added for convenience and are invisible to office IT monitoring; a site walk is the reliable way to find them.",
+     "src": "https://www.ic3.gov/PSA/2026/PSA260730.pdf",
+     "verified": "2026-11-10"
+    },
+    {
+     "name": "Real beneficiary rules (Cabinet Resolution No. 109 of 2023; penalties Cabinet Decision No. 132 of 2023)",
+     "status": "Mandatory",
+     "note": "Every company licensed on the mainland or in a non-financial free zone keeps registers of real beneficiaries, partners or shareholders and nominee managers, and files them with its licensing authority. DIFC and ADGM have their own rules.",
+     "src": "https://uaelegislation.gov.ae/en/legislations/2314/download",
+     "verified": "2026-11-10"
     }
    ]
   },
@@ -231,6 +245,18 @@
      "verified": "2026-11-05"
     }
    ]
+  },
+  "PRM": {
+   "name": "Premises systems (CCTV, door entry, alarms, lifts, tills, signage)",
+   "regimes": [
+    {
+     "name": "ISA/IEC 62443 principles for building systems",
+     "status": "International standard; good practice for premises systems",
+     "note": "SIM cards and 4G routers in lift, fire and building panels, and cameras viewable from phones, bypass office networks and monitoring. Keep an inventory, a named owner and a change rule for every connection.",
+     "src": "https://github.com/CyberHak44/iec62443-building-ot-crosswalk",
+     "verified": "2026-11-10"
+    }
+   ]
   }
  },
  "regulated": [
@@ -299,6 +325,11 @@
   {
    "id": "autonomous",
    "q": "Do you operate driverless or remotely operated vehicles?",
+   "type": "yn"
+  },
+  {
+   "id": "premises",
+   "q": "Does your premises have CCTV, door entry, alarms, building controls, lift or fire panels, card tills or digital signage?",
    "type": "yn"
   },
   {
@@ -372,6 +403,12 @@
   "OT": [
    [
     "ot",
+    "Yes"
+   ]
+  ],
+  "PRM": [
+   [
+    "premises",
     "Yes"
    ]
   ],
@@ -3769,6 +3806,393 @@
     "Re-run this review six months after opening."
    ],
    "ie_service": "Managed Microsoft 365 (new site set-up)"
+  },
+  {
+   "id": "HC-01",
+   "title": "Remote support tools controlled",
+   "modules": [
+    "CORE"
+   ],
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "IT",
+   "question": "Do you know every remote support tool (for example TeamViewer or AnyDesk) installed on your computers, CCTV recorder, till or building PCs, and does each one need someone on site to approve a connection?",
+   "why": "Unattended remote access set up by an installer or vendor lets anyone with the login connect without you knowing; it is the commonest forgotten way in.",
+   "severity": "High",
+   "weight": 3,
+   "iso27001": [
+    "A.5.19",
+    "A.8.2",
+    "A.8.5",
+    "A.8.18"
+   ],
+   "uae_ia": [
+    "T5",
+    "T6"
+   ],
+   "refs": {
+    "CORE": "IE-REF-023 B1; IEC 62443-3-3 SR 1.13"
+   },
+   "fix": [
+    "List every device with a remote support tool and who uses it.",
+    "Remove the ones nobody needs; set the rest to need on-site approval and MFA.",
+    "Ask IE for a Hidden Connections Walk to find tools nobody remembers."
+   ],
+   "ie_service": "Hidden Connections Walk (GRC advisory)"
+  },
+  {
+   "id": "HC-02",
+   "title": "USB sticks controlled",
+   "modules": [
+    "CORE"
+   ],
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "IT",
+   "question": "Are USB sticks and other removable drives limited to approved ones, scanned before use, and never used to move files between the CCTV recorder, tills or office PCs?",
+   "why": "USB sticks carry malware between systems that are otherwise kept apart.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.7.10",
+    "A.8.7"
+   ],
+   "uae_ia": [
+    "T2",
+    "T3"
+   ],
+   "refs": {
+    "CORE": "IE-REF-023 B2; IEC 62443-3-3 SR 2.3, SR 3.2"
+   },
+   "fix": [
+    "Decide which tasks really need a USB stick and issue approved ones only.",
+    "Turn on automatic scanning or device control on PCs.",
+    "Use a secure transfer method instead where possible."
+   ],
+   "ie_service": "Managed Cyber Security (device control)"
+  },
+  {
+   "id": "HC-03",
+   "title": "Outside companies' connections listed",
+   "modules": [
+    "CORE"
+   ],
+   "area": "CON",
+   "area_name": "Contracts and data handling",
+   "role": "Owner",
+   "question": "Do you keep a list of outside companies and contractors that connect to your systems or Wi-Fi (including their laptops and VPNs), and review it at least every six months?",
+   "why": "Contractor laptops and VPN tunnels on your network are connections you do not control.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.5.19",
+    "A.5.22",
+    "A.6.7",
+    "A.8.1"
+   ],
+   "uae_ia": [
+    "T3",
+    "T5",
+    "T6"
+   ],
+   "refs": {
+    "CORE": "IE-REF-023 B4; IEC 62443-3-3 SR 1.13, SR 5.2"
+   },
+   "fix": [
+    "List each company that connects, how and when.",
+    "Put visitors and contractors on a separate guest Wi-Fi.",
+    "Remove access for anyone no longer working for you."
+   ],
+   "ie_service": "Supplier risk review (GRC advisory)"
+  },
+  {
+   "id": "HC-04",
+   "title": "Every internet connection known",
+   "modules": [
+    "CORE"
+   ],
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "Owner",
+   "question": "Do you know every internet connection your business uses (including backup 5G routers, satellite such as Starlink, and mobile hotspots), who installed each one and who manages it?",
+   "why": "A second internet link bypasses your firewall and any monitoring, so nobody sees what crosses it.",
+   "severity": "High",
+   "weight": 3,
+   "iso27001": [
+    "A.5.9",
+    "A.8.20",
+    "A.8.21",
+    "A.8.16"
+   ],
+   "uae_ia": [
+    "T1",
+    "T3",
+    "T4"
+   ],
+   "refs": {
+    "CORE": "IE-REF-023 B6; IEC 62443-3-3 SR 5.2, SR 6.2"
+   },
+   "fix": [
+    "Count every internet connection, including backups and hotspots.",
+    "Remove ones nobody needs; put the rest behind the same firewall rules.",
+    "Name an owner who must approve any new connection."
+   ],
+   "ie_service": "Hidden Connections Walk (GRC advisory)"
+  },
+  {
+   "id": "HC-05",
+   "title": "Shared PCs kept to one job",
+   "modules": [
+    "CORE"
+   ],
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "IT",
+   "question": "Is any one computer used for several jobs at once (for example email, banking, till or system admin and viewing CCTV), and if so are those uses separated with their own accounts?",
+   "why": "One phishing email on a shared PC reaches banking, tills and cameras at the same time.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.5.10",
+    "A.8.22",
+    "A.8.23",
+    "A.8.7"
+   ],
+   "uae_ia": [
+    "T1",
+    "T3",
+    "T4"
+   ],
+   "refs": {
+    "CORE": "IE-REF-023 B7; IEC 62443-3-3 SR 5.1, SR 7.7"
+   },
+   "fix": [
+    "List what each shared PC is used for.",
+    "Move banking and admin to a separate device or at least a separate account.",
+    "Turn on web filtering on PCs that run tills, CCTV or building systems."
+   ],
+   "ie_service": "Managed Cyber Security (endpoint set-up)"
+  },
+  {
+   "id": "PRM-01",
+   "title": "No unknown SIM cards in panels",
+   "modules": [
+    "PRM"
+   ],
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "Owner",
+   "question": "Do you know of every SIM card or 4G router inside your lift, fire alarm, building control, generator or charger panels, who pays for it and who can connect through it?",
+   "why": "A SIM in a panel is an internet link that office IT does not see and usually no one owns.",
+   "severity": "High",
+   "weight": 3,
+   "iso27001": [
+    "A.5.9",
+    "A.8.20",
+    "A.8.21",
+    "A.8.22"
+   ],
+   "uae_ia": [
+    "T1",
+    "T4"
+   ],
+   "refs": {
+    "PRM": "IE-REF-023 B3; IEC 62443-3-3 SR 5.1, SR 5.2"
+   },
+   "fix": [
+    "Ask your landlord, facilities manager and each panel supplier which panels have a SIM.",
+    "Record each one with its owner and purpose.",
+    "Ask IE for a Hidden Connections Walk to check the panels in person."
+   ],
+   "ie_service": "Hidden Connections Walk (GRC advisory)"
+  },
+  {
+   "id": "PRM-02",
+   "title": "Cameras and building screens not open to the internet",
+   "modules": [
+    "PRM"
+   ],
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "IT",
+   "question": "If you can view cameras or building systems from a phone, is that through the supplier's secure app with a strong password and 2-step verification (not an open port), and are recorder or control screens never used to browse the web?",
+   "why": "Cameras and recorders reachable from the internet are scanned for constantly, and a browsing session on a control screen brings malware straight to it.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.5.10",
+    "A.8.22",
+    "A.8.23"
+   ],
+   "uae_ia": [
+    "T1",
+    "T4"
+   ],
+   "refs": {
+    "PRM": "IE-REF-023 B5; IEC 62443-3-3 SR 5.1, SR 7.7"
+   },
+   "fix": [
+    "Check how phone viewing is set up; close any port forwarding on your router.",
+    "Change default passwords and turn on 2-step verification in the camera app.",
+    "Block web browsing on recorder and control screens."
+   ],
+   "ie_service": "Managed Cyber Security (network hardening)"
+  },
+  {
+   "id": "COR-05",
+   "title": "Beneficial owner register filed",
+   "modules": [
+    "CORE"
+   ],
+   "area": "GOV",
+   "area_name": "Governance and legal standing",
+   "role": "Owner",
+   "question": "Does the business keep its registers of real beneficiaries and shareholders, filed with your licensing authority and updated within the deadline after any change?",
+   "why": "It is a legal duty for mainland and free zone companies, with fines under Cabinet Decision No. 132 of 2023, and banks check it when opening accounts.",
+   "severity": "High",
+   "weight": 3,
+   "iso27001": [
+    "A.5.31"
+   ],
+   "uae_ia": [
+    "M5"
+   ],
+   "refs": {
+    "CORE": "Cabinet Resolution No. 109 of 2023"
+   },
+   "fix": [
+    "Ask your licensing authority or registered agent for your current filing.",
+    "Check every owner and manager listed is correct.",
+    "Put the update rule on the renewal register: any change must be filed promptly."
+   ],
+   "ie_service": "Business Security Audit: renewal register set-up"
+  },
+  {
+   "id": "COR-06",
+   "title": "Record of personal data kept",
+   "modules": [
+    "CORE"
+   ],
+   "area": "CON",
+   "area_name": "Contracts and data handling",
+   "role": "Owner",
+   "question": "Do you keep a simple record of the personal data you hold (customers, staff, suppliers): what it is, why you hold it, where it is stored and who can see it?",
+   "why": "The UAE PDPL (Article 7) requires a record of personal data that the regulator can ask to see, and you cannot protect data you have not listed.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.5.34",
+    "A.5.9"
+   ],
+   "uae_ia": [
+    "M5",
+    "T1"
+   ],
+   "refs": {
+    "CORE": "UAE PDPL Article 7"
+   },
+   "fix": [
+    "List each type of personal data and where it is kept.",
+    "Note why you hold it and how long you keep it.",
+    "Review the list once a year."
+   ],
+   "ie_service": "Privacy pack (GRC advisory)"
+  },
+  {
+   "id": "COR-07",
+   "title": "Data breach reporting ready",
+   "modules": [
+    "CORE"
+   ],
+   "area": "INC",
+   "area_name": "Incidents and continuity",
+   "role": "Owner",
+   "question": "If personal data were lost or stolen, do you know that you must report it to the UAE Data Office and, where it harms them, tell the people affected, and who in the business would do it?",
+   "why": "The UAE PDPL (Article 9) makes reporting a personal data breach mandatory; delay makes the harm and the penalty worse.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.5.24",
+    "A.5.26",
+    "A.5.34"
+   ],
+   "uae_ia": [
+    "M5",
+    "T8"
+   ],
+   "refs": {
+    "CORE": "UAE PDPL Article 9"
+   },
+   "fix": [
+    "Name who decides whether a breach is reportable.",
+    "Add the reporting step and contact to your incident plan.",
+    "Keep a short notification template ready."
+   ],
+   "ie_service": "Incident response plan (GRC advisory)"
+  },
+  {
+   "id": "COR-08",
+   "title": "Large payments need two people",
+   "modules": [
+    "CORE"
+   ],
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "Finance",
+   "question": "Do payments above a set amount, and any urgent or unusual payment request, need approval by a second person before they are sent?",
+   "why": "Fraudsters impersonate owners, suppliers and even banks to rush one person into paying; a second approver is the cheapest stop.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.5.3",
+    "A.5.14"
+   ],
+   "uae_ia": [
+    "M1",
+    "T4"
+   ],
+   "refs": {
+    "CORE": "Good practice (payment fraud)"
+   },
+   "fix": [
+    "Set an amount above which two people must approve.",
+    "Treat any 'urgent, keep it quiet' request as suspicious and verify by phone.",
+    "Use your bank's dual-approval feature where offered."
+   ],
+   "ie_service": "Security awareness training"
+  },
+  {
+   "id": "COR-09",
+   "title": "Website kept updated and protected",
+   "modules": [
+    "CORE"
+   ],
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "IT",
+   "question": "If you have a website, are the platform and plugins updated at least monthly, and is every admin login protected by 2-step verification?",
+   "why": "Out-of-date website software is attacked automatically within days of a flaw being published, and a hacked site damages your name with customers and search engines.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.8.8",
+    "A.8.5",
+    "A.8.26"
+   ],
+   "uae_ia": [
+    "T3",
+    "T5",
+    "T7"
+   ],
+   "refs": {
+    "CORE": "Good practice (web security)"
+   },
+   "fix": [
+    "Ask whoever built the site who keeps it updated, and agree a monthly update.",
+    "Turn on 2-step verification for every admin login and remove old accounts.",
+    "Keep a recent backup of the site."
+   ],
+   "ie_service": "Managed Cyber Security (patching)"
   }
  ]
 }

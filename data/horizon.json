@@ -74,13 +74,12 @@
   {
    "id": "HZ-003",
    "modules": [
-    "OT",
-    "GOV"
+    "CORE"
    ],
    "date": "2026-07-30",
    "type": "Advisory",
    "status": "Verified",
-   "verified": "2026-11-05",
+   "verified": "2026-11-10",
    "title": "FBI and EPA warning: 'air-gapped' control systems often have hidden internet connections",
    "summary": "Public service announcement I-073026-PSA on unmanaged connections into operational technology. IE case file CASE-007 records seven typical hidden routes.",
    "sectors": [
@@ -88,12 +87,19 @@
     "Facilities and building systems"
    ],
    "questions": [
-    "BSP-24",
-    "BSP-26",
-    "BSP-33"
+    "HC-01",
+    "HC-03",
+    "HC-04",
+    "PRM-01",
+    "OT-02",
+    "BSP-24"
    ],
    "advice": "Do not accept 'it is air-gapped' without a walk-down: modems, remote-support tools and vendor laptops are the usual bridges.",
    "sources": [
+    [
+     "FBI and EPA PSA I-073026-PSA, 30 July 2026",
+     "https://www.ic3.gov/PSA/2026/PSA260730.pdf"
+    ],
     [
      "IE case file CASE-007 (IE-REF-023)",
      ""

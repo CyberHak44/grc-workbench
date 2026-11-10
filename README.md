@@ -29,8 +29,9 @@ For the GRC Readiness Review, open `readiness-review.html` the same way.
 
 An analyst asks the client's owner a short set of questions and the review works out which rules apply before asking anything else. A micro business answers about 20 questions; a regulated one up to about 60.
 
-- **Goals and screening:** 14 questions on where the business is heading and what it does (who it sells to, health data, AI, drones, driverless vehicles, connected systems, insurance, card payments, foreign customers, revenue) switch on only the modules that apply.
-- **Question library v2.1:** 109 questions in 15 modules: every business, selling to businesses or government (e-invoicing), bank supplier (CBUAE), government supplier (UAE IA), health data, AI, drones, autonomous vehicles, connected systems (IEC 62443), insurance, card payments (PCI DSS v4.0.1), cross-border data, due diligence, larger contracts and expansion.
+- **Goals and screening:** 15 questions on where the business is heading and what it does (who it sells to, premises systems, health data, AI, drones, driverless vehicles, connected systems, insurance, card payments, foreign customers, revenue) switch on only the modules that apply.
+- **Question library v2.2:** 121 questions in 16 modules: every business, premises systems (CCTV, door entry, alarms, lifts, tills, signage), selling to businesses or government (e-invoicing), bank supplier (CBUAE), government supplier (UAE IA), health data, AI, drones, autonomous vehicles, connected systems (IEC 62443), insurance, card payments (PCI DSS v4.0.1), cross-border data, due diligence, larger contracts and expansion.
+- **Hidden connections:** every review checks the seven routes that bypass office IT: remote support tools, USB sticks, contractor laptops, extra internet links (5G, satellite), shared PCs, SIM cards in building panels and cameras reachable from phones. A site walk is the reliable way to find them.
 - **Rules that apply:** each rule is shown as mandatory, contractual or guidance, with its source.
 - **Pass rule v1.1:** every question answered; every Critical control met and confirmed by management; no High control missing (a Yes that management will not confirm counts as missing); readiness at least 80%.
 - **Due diligence compliance check:** for clients planning a sale, partner or funding, scored separately from pass or fail.
@@ -52,7 +53,7 @@ Screening shows which rules are likely to apply; it is not legal advice.
 | `data/cbuae.js` | The same requirements as JavaScript. Generated; do not edit by hand |
 | `tools/build-data.js` | Rebuilds both `.js` data files from the CSVs: `node tools/build-data.js` |
 | `readiness-review.html` | The GRC Readiness Review: one page, no external libraries, question library and developments built in |
-| `data/library.json` | The readiness review question library (v2.1): screening, modules, rules with sources and check dates, questions, pass rule |
+| `data/library.json` | The readiness review question library (v2.2): screening, modules, rules with sources and check dates, questions, pass rule |
 | `data/horizon.json` | Current developments shown in the ticker, each with sources and a check date |
 
 ## How the modules connect

@@ -1,5 +1,5 @@
 {
- "library_version": "2.0",
+ "library_version": "2.1",
  "tool_name": "GRC Readiness Review",
  "modules": {
   "CORE": {
@@ -161,11 +161,18 @@
    "name": "Takes card payments",
    "regimes": [
     {
-     "name": "PCI DSS v4.0.1",
-     "status": "Contractual: through your card acquirer",
-     "note": "Card data must never be stored by you; small merchants complete an annual self-assessment.",
-     "src": "",
-     "verified": "2026-11-05"
+     "name": "PCI DSS v4.0.1 (PCI Security Standards Council)",
+     "status": "Contractual: required by your card provider (acquirer) under the card scheme rules",
+     "note": "v4.0.1 is the only active version (v4.0 retired 31 Dec 2024) and every former future-dated requirement has applied since 31 Mar 2025. The Council consulted on the next version from 3 Jun to 20 Jul 2026; no release date is set. Small merchants usually confirm compliance once a year with a Self-Assessment Questionnaire (SAQ). The right SAQ depends on how you take cards: standalone terminal (B or B-IP), payment link or hosted checkout (A), virtual terminal on a separate computer (C-VT), payment software connected to the internet (C), or card data kept in your own systems (D). The security code (CVV) must never be kept after a payment is approved.",
+     "src": "https://pcisecuritystandards.org/wp-content/uploads/2024/10/SAQs_for_PCI_DSS_v4.0.1_Bulletin.pdf",
+     "verified": "2026-11-10"
+    },
+    {
+     "name": "Your card provider's requirements (UAE)",
+     "status": "Contractual: set by your merchant agreement",
+     "note": "Your acquirer decides which SAQ applies, how you submit it and the deadline; ask them in writing. Magnati, a UAE acquirer, states that PCI DSS is mandated in the UAE by the CBUAE; IE has not located the CBUAE instrument itself, so treat this as acquirer-stated. Merchant agreements commonly make the merchant responsible for its own PCI DSS compliance and costs, even when card processing is outsourced.",
+     "src": "https://www.magnati.com/en/payment-card-industry-data-security-standard/",
+     "verified": "2026-11-10"
     }
    ]
   },
@@ -2981,90 +2988,281 @@
   },
   {
    "id": "PCI-01",
-   "title": "Card data never stored",
+   "title": "Card details never kept",
    "modules": [
     "PCI"
    ],
    "area": "TEC",
    "area_name": "Technology controls",
    "role": "Owner",
-   "question": "Do you take cards only through your acquirer's certified terminal or payment link, and never write down or store card numbers?",
-   "why": "Stored card numbers make you liable for fraud and fines under your acquirer contract.",
+   "question": "Do you take cards only through your provider's terminal, payment link or hosted checkout, and never write down, photograph or save card numbers or security codes (including on paper, email or WhatsApp)?",
+   "why": "Keeping card details takes you out of the shortest self-assessment and makes you responsible for protecting them; the security code must never be kept after a payment is approved.",
    "severity": "High",
    "weight": 3,
    "iso27001": [
-    "A.5.33"
+    "A.5.33",
+    "A.5.10"
    ],
    "uae_ia": [
-    "M5"
+    "M5",
+    "T1"
    ],
    "refs": {
-    "PCI": "PCI DSS v4.0.1"
+    "PCI": "PCI DSS v4.0.1 Req 3"
    },
    "fix": [
-    "Use only the acquirer's terminal or link.",
-    "Shred any written card details.",
-    "Tell staff never to take card numbers by phone or WhatsApp."
+    "Use only the provider's terminal, payment link or hosted checkout.",
+    "Shred any written card details and delete card photos or messages.",
+    "Tell staff never to take card numbers by phone, email or WhatsApp; send a payment link instead."
    ],
    "ie_service": "Security awareness training"
   },
   {
    "id": "PCI-02",
-   "title": "Annual PCI self-assessment",
+   "title": "Annual PCI self-assessment done",
    "modules": [
     "PCI"
    ],
    "area": "CMP",
    "area_name": "Compliance and assurance",
    "role": "Owner",
-   "question": "Do you complete the annual PCI self-assessment your acquirer asks for?",
-   "why": "Missing it can bring monthly non-compliance fees from the acquirer.",
-   "severity": "Medium",
-   "weight": 2,
+   "question": "Do you know which PCI self-assessment questionnaire (SAQ) your card provider expects from you, and have you submitted it in the last 12 months?",
+   "why": "Your card provider sets the questionnaire, portal and deadline. Picking the wrong SAQ is a common mistake and makes the submission inaccurate; providers can charge non-compliance fees, pass on card scheme penalties or end the merchant agreement.",
+   "severity": "High",
+   "weight": 3,
    "iso27001": [
-    "A.5.36"
+    "A.5.36",
+    "A.5.31"
    ],
    "uae_ia": [
     "M5"
    ],
    "refs": {
-    "PCI": "PCI DSS v4.0.1"
+    "PCI": "PCI DSS v4.0.1 SAQ (v4.0.1, Oct 2024)"
    },
    "fix": [
-    "Ask your acquirer which questionnaire applies.",
-    "Complete it with their portal.",
-    "Diary the renewal."
+    "Ask your card provider in writing which SAQ applies to you, where to submit it and by when.",
+    "Complete it honestly; IE can walk your appointed person through it but does not sign it and is not a PCI assessor (QSA).",
+    "Put the renewal date on the renewal register with reminders at 60, 30 and 7 days."
    ],
-   "ie_service": "Regulatory checklist (GRC advisory)"
+   "ie_service": "PCI self-assessment walk-through (GRC advisory)"
   },
   {
    "id": "PCI-03",
-   "title": "Terminal tampering and refund fraud",
+   "title": "Card terminals listed and checked",
    "modules": [
     "PCI"
    ],
    "area": "PPL",
    "area_name": "People",
    "role": "Owner",
-   "question": "Are staff trained to check terminals for tampering and to spot refund and 'wrong amount' fraud?",
-   "why": "Tampered terminals and refund scams target small shops.",
+   "question": "Do you keep a list of your card terminals (make, model, serial number, location), and do staff check them regularly for tampering such as broken seals, extra parts or a swapped device?",
+   "why": "Tampered or swapped terminals are used to steal card details at the till; PCI DSS asks merchants to keep a device list and inspect devices.",
    "severity": "Medium",
    "weight": 2,
    "iso27001": [
-    "A.6.3"
+    "A.5.9",
+    "A.7.9"
    ],
    "uae_ia": [
-    "M3"
+    "T1",
+    "T2"
    ],
    "refs": {
-    "PCI": "PCI DSS v4.0.1 (device inspection)"
+    "PCI": "PCI DSS v4.0.1 Req 9.5.1"
    },
    "fix": [
-    "Show staff how to inspect the terminal daily.",
-    "Limit who can process refunds.",
-    "Check refund reports weekly."
+    "Write down each terminal's serial number and where it sits.",
+    "Show staff what a tampered terminal looks like and check daily at opening.",
+    "Never let anyone service or swap a terminal without confirming the visit with your card provider."
    ],
    "ie_service": "Security awareness training"
+  },
+  {
+   "id": "PCI-04",
+   "title": "Refunds controlled",
+   "modules": [
+    "PCI"
+   ],
+   "area": "PPL",
+   "area_name": "People",
+   "role": "Finance",
+   "question": "Can only named people process refunds, and does someone else check the refund report every week?",
+   "why": "Refund and 'wrong amount' scams are a direct loss; separating who refunds from who checks catches them early.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.5.3",
+    "A.5.15"
+   ],
+   "uae_ia": [
+    "M1",
+    "T5"
+   ],
+   "refs": {
+    "PCI": "Good practice (card fraud)"
+   },
+   "fix": [
+    "Limit refund rights on the terminal or portal to named people.",
+    "Have a second person review the refund report weekly.",
+    "Investigate any refund without a matching sale."
+   ],
+   "ie_service": "Security awareness training"
+  },
+  {
+   "id": "PCI-05",
+   "title": "Card terminal on its own network",
+   "modules": [
+    "PCI"
+   ],
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "IT",
+   "question": "If your card terminal uses your shop's internet, is it on its own network or Wi-Fi, separate from guest Wi-Fi, office PCs and CCTV?",
+   "why": "A standalone IP-connected terminal kept apart from your other systems is what the shorter SAQ B-IP assumes; sharing a network with PCs widens what you must secure.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.8.22",
+    "A.8.20"
+   ],
+   "uae_ia": [
+    "T4"
+   ],
+   "refs": {
+    "PCI": "PCI DSS v4.0.1 SAQ B-IP eligibility"
+   },
+   "fix": [
+    "Ask your card provider how the terminal connects (SIM, its own Wi-Fi or your network).",
+    "If it uses your network, put it on a separate network or Wi-Fi with its own password.",
+    "Never let customers or staff phones share the terminal's network."
+   ],
+   "ie_service": "Managed Cyber Security (network separation)"
+  },
+  {
+   "id": "PCI-06",
+   "title": "Payment providers PCI compliant",
+   "modules": [
+    "PCI"
+   ],
+   "area": "CON",
+   "area_name": "Contracts and data handling",
+   "role": "Owner",
+   "question": "Is every company that takes card payments for you (terminal provider, payment links, website checkout, booking or delivery apps) PCI DSS compliant, and do you keep their proof, such as an Attestation of Compliance, on file?",
+   "why": "Outsourcing card processing reduces your work but does not remove your own responsibility; a non-compliant provider puts your payments at risk.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.5.19",
+    "A.5.20",
+    "A.5.21"
+   ],
+   "uae_ia": [
+    "T6"
+   ],
+   "refs": {
+    "PCI": "PCI DSS v4.0.1 Req 12.8"
+   },
+   "fix": [
+    "List every provider that touches card payments.",
+    "Ask each for its current PCI DSS Attestation of Compliance or listing.",
+    "Diary a yearly re-check and replace any provider that cannot show it."
+   ],
+   "ie_service": "Supplier risk review (GRC advisory)"
+  },
+  {
+   "id": "PCI-07",
+   "title": "Website checkout hosted by the provider",
+   "modules": [
+    "PCI"
+   ],
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "IT",
+   "question": "If you take card payments on your website, does the card form come from your payment provider (hosted page or redirect), with the site kept updated and its admin login protected by 2-step verification?",
+   "why": "A hosted checkout keeps card data off your site and usually qualifies for the shortest SAQ (A); attackers who change a checkout page's scripts can steal card details.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.8.8",
+    "A.8.5",
+    "A.8.26"
+   ],
+   "uae_ia": [
+    "T3",
+    "T5",
+    "T7"
+   ],
+   "refs": {
+    "PCI": "PCI DSS v4.0.1 SAQ A; Req 6.4.3 and 11.6.1 (payment page scripts)"
+   },
+   "fix": [
+    "Confirm with your web developer or provider that card details are entered on the provider's page, not yours.",
+    "Keep the website platform and plugins updated monthly.",
+    "Turn on 2-step verification for every website admin login."
+   ],
+   "ie_service": "Managed Cyber Security (patching)"
+  },
+  {
+   "id": "PCI-08",
+   "title": "Default passwords changed on payment systems",
+   "modules": [
+    "PCI"
+   ],
+   "area": "TEC",
+   "area_name": "Technology controls",
+   "role": "IT",
+   "question": "Have default passwords on card terminals, till software and your card provider's merchant portal been changed, with each person using their own login?",
+   "why": "Default and shared passwords are among the first things attackers try, and shared logins hide who did what.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.5.16",
+    "A.5.17",
+    "A.8.5"
+   ],
+   "uae_ia": [
+    "T5"
+   ],
+   "refs": {
+    "PCI": "PCI DSS v4.0.1 Req 2.2.2 and 8.2.1"
+   },
+   "fix": [
+    "Change every default password on payment devices and software.",
+    "Give each person their own portal login and remove leavers the same day.",
+    "Store the passwords in the password manager."
+   ],
+   "ie_service": "Managed Cyber Security (password manager roll-out)"
+  },
+  {
+   "id": "PCI-09",
+   "title": "Card compromise steps known",
+   "modules": [
+    "PCI"
+   ],
+   "area": "INC",
+   "area_name": "Incidents and continuity",
+   "role": "Owner",
+   "question": "If you suspect card details were stolen or a terminal was tampered with, do staff know to stop using it and call your card provider at once, and is that number kept by the till?",
+   "why": "Merchant agreements typically require prompt notice of a suspected card compromise; acting fast limits the loss and protects your merchant account.",
+   "severity": "Medium",
+   "weight": 2,
+   "iso27001": [
+    "A.5.24",
+    "A.5.26"
+   ],
+   "uae_ia": [
+    "T8"
+   ],
+   "refs": {
+    "PCI": "PCI DSS v4.0.1 Req 12.10"
+   },
+   "fix": [
+    "Write the card provider's fraud or support number on a card by the till.",
+    "Tell staff: stop using the device, do not switch it off or wipe it, call the provider.",
+    "Add card compromise to your one-page incident plan."
+   ],
+   "ie_service": "Incident response plan (GRC advisory)"
   },
   {
    "id": "XB-01",

@@ -2,13 +2,15 @@
 
 One browser-based tool for asset and risk registers, the ISO/IEC 27001 Statement of Applicability, third-party risk scoring and CBUAE readiness, all sharing one data set. Every control is tagged to ISO/IEC 27001:2022, the UAE IA Regulation and IEC 62443, so one assessment answers all three. Data stays on the user's machine.
 
-**Status:** v1.2. All six stages built; Intelligent Environments brand on the interface and the gap report (document control block, status colours).
+**Status:** v1.3. All six stages built and branded. Adds the GRC Readiness Review (`readiness-review.html`), a second tool for analyst-led readiness reviews of micro businesses and SMEs.
 
 ## Run it
 
 Download the repository and open `index.html` in a browser. No install, no server, no account. The demo data is a fictional payments company.
 
 Data is kept in the browser and can be exported to a JSON file and imported again. Nothing is sent anywhere.
+
+For the GRC Readiness Review, open `readiness-review.html` the same way.
 
 ## Build stages
 
@@ -23,6 +25,22 @@ Data is kept in the browser and can be exported to a JSON file and imported agai
 | - | Intelligent Environments brand (colours, type, report wordmark and footer) | v1.1 | Done |
 | - | Gap report as a branded IE document: control block, classification, status colours | v1.2 | Done |
 
+## GRC Readiness Review
+
+An analyst asks the client's owner a short set of questions and the review works out which rules apply before asking anything else. A micro business answers about 20 questions; a regulated one up to about 60.
+
+- **Goals and screening:** 14 questions on where the business is heading and what it does (who it sells to, health data, AI, drones, driverless vehicles, connected systems, insurance, card payments, foreign customers, revenue) switch on only the modules that apply.
+- **Question library v2.1:** 109 questions in 15 modules: every business, selling to businesses or government (e-invoicing), bank supplier (CBUAE), government supplier (UAE IA), health data, AI, drones, autonomous vehicles, connected systems (IEC 62443), insurance, card payments (PCI DSS v4.0.1), cross-border data, due diligence, larger contracts and expansion.
+- **Rules that apply:** each rule is shown as mandatory, contractual or guidance, with its source.
+- **Pass rule v1.1:** every question answered; every Critical control met and confirmed by management; no High control missing (a Yes that management will not confirm counts as missing); readiness at least 80%.
+- **Due diligence compliance check:** for clients planning a sale, partner or funding, scored separately from pass or fail.
+- **Current developments:** a ticker of verified regulatory changes and incidents, filtered to each client.
+- **90-day fact rule:** every rule and development carries the date it was last checked against its source. Exports are blocked once any entry is more than 90 days old.
+- **No secrets, no evidence:** the review records answers only. It never asks for passwords, MFA codes, encryption keys, documents or identification numbers.
+- **Anonymised gap log:** exports hold counts only (quarter, sector, size band, emirate). Analyst notes are never exported.
+
+Screening shows which rules are likely to apply; it is not legal advice.
+
 ## What is in the repo
 
 | File | What it holds |
@@ -33,6 +51,9 @@ Data is kept in the browser and can be exported to a JSON file and imported agai
 | `data/cbuae-crosswalk.csv` | The 39 CBUAE Operational Risk Management requirements from [cbuae-orm-cyber-crosswalk](https://github.com/CyberHak44/cbuae-orm-cyber-crosswalk) (CC BY 4.0) |
 | `data/cbuae.js` | The same requirements as JavaScript. Generated; do not edit by hand |
 | `tools/build-data.js` | Rebuilds both `.js` data files from the CSVs: `node tools/build-data.js` |
+| `readiness-review.html` | The GRC Readiness Review: one page, no external libraries, question library and developments built in |
+| `data/library.json` | The readiness review question library (v2.1): screening, modules, rules with sources and check dates, questions, pass rule |
+| `data/horizon.json` | Current developments shown in the ticker, each with sources and a check date |
 
 ## How the modules connect
 
@@ -42,6 +63,7 @@ Assets carry risks. Risks are scored (likelihood x impact, inherent and residual
 
 - One page, no server, no tracking. Data is exported and imported as a file.
 - Demo data is fictional. No real client data in this repository.
+- No passwords, keys or other secrets are ever collected.
 - Mappings are the author's professional judgement, not guidance from ISO, IEC, ISA, TDRA or CBUAE.
 
 ## Related
@@ -53,4 +75,6 @@ Assets carry risks. Risks are scored (likelihood x impact, inherent and residual
 
 **Clive (Hakim) Bean**: ISO/IEC 27001 Lead Auditor (GRC Mastery, 2026, Credly-verified). Intelligent Environments L.L.C-FZ, Abu Dhabi.
 
-Document control: IE-TOOL-001 v1.2, Intelligent Environments document register IE-REG-001.
+Research support: Polly, my AI assistant.
+
+Document control: IE-TOOL-001 v1.3 and IE-TOOL-002 v1.7, Intelligent Environments document register IE-REG-001.
